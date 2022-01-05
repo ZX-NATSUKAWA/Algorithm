@@ -34,3 +34,33 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+；参照教材P124例6-1，设单片机系统的时钟（晶振）频率为12MHz,p1.0外接LED电路，试用定时器中断编程实现LED按1秒闪烁（亮1秒暗1秒交替循环）。
+；时钟周期=1/12MHz,机器周期=12*时钟周期=12*(1/12MHz)=1us,定时时间为1s=1000000us,选用T1，最大定时65536us,因此需要一个计数器来累积中断次数。
+；设定时中断时间为50000us=50ms,因次中断1s/50ms=1000ms/50ms=20次后取反P1.0
+；T1初值=65536-50000=15536=3CB0H,高8位3C写入TH1,低8位写入TL1
+
+      ORG 0000h
+      AJMP main ;上电跳到main
+      ORG 001Bh ;T1中断入口地址（中断矢量）
+      AJMP itsev ;跳到中断服务子程序
+
+      ORG 0030h 
+main: MOV SP,#60H    ;设置堆栈深度（60h-7fh），这里这一句可以不要
+      MOV R0,#20     ;r0作为中断次数计数器，预置20(十进制)
+      MOV TMOD,#10H  ;设置T1工作模式字00010000b, 低4位无关均设置为0，工作模式1，16位定时器
+      MOV TH1,#3CH   ;预置的初值高8位
+      MOV TL1,#0b0H  ;预置的初值低8位
+      SETB EA        ;CPU开中断（总开关合上）
+      SETB ET1       ;T1开中断（分开关合上）
+      SETB TR1       ;启动定时
+      SJMP $         ;原地等待
+	
+itsev:ORG 0100H
+      MOV TH1,#3CH   ;重置初值
+      MOV TL1,#0b0H 
+      DJNZ R0,itret  ;20次中断没到返回等待，到了就取反端口
+      CPL P1.0
+      MOV R0,#20     ;重置计数器
+itret:RETI           ;中断返回
+      END
