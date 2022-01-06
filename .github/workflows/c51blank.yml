@@ -64,3 +64,15 @@ itsev:ORG 0100H
       MOV R0,#20     ;重置计数器
 itret:RETI           ;中断返回
       END
+
+
+延时程序
+ORG 0000H
+AJMP TIME
+TIME:MOV R1,#0FAH
+L1:  MOV R0,#0FFH
+W1:  DJNZ R1,W1
+     DJNZ R1,L1
+     NOP
+     NOP
+     RET
