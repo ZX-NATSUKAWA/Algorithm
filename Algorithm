@@ -130,3 +130,93 @@
 //       Ci表示代价以忽略实际代价。常量a,b,c忽略Ci进一步简化
 //       关注增长率，只考虑最重要的项，如最高次项。
 //       当忽略低价项及最重要项的常系数时，使用asymptotic notation（theta），记为o(最重要项因子)
+
+
+// 2.3 设计算法
+//   插入排序使用了增量方法（排序好子列后，将后面的元素插入子列）
+//   分治法，其最坏运行时间比插入排序要少得多。
+// 2.3.1 分治法
+//   在算法结构上是递归的：为了解决一个给定问题，一次或多次递归调用自身来解决相关的子问题。
+//   思想：原问题分解为规模较小且类似的子问题，递归求解子问题，合并子问题的解来求出原问题的解。
+//   步骤：分解，解决，合并。  当待排序列长度为1时，递归开始回升。
+//   2.3.1.1 
+//     MERGE(A,p,q,r) 合并函数，用于合并子数列A[p...q]和A[q+1...r],结果为A[p...r]
+//     过程MERGE需要o(n)的时间 n=r-p+1（待合并元素总数），每次比较两个数组的当前元素，较小的放到输出数组中，放一次比一次，直到n个元素全放入输出数组。
+//     如果当一个数组已经全部放入输出数组，则另一个数组剩余元素没有必要继续比较，可直接顺次放入输出数组。所以在数组底部放特殊值，当比较时出现该值可直接跳过比较。
+//     伪代码如下：
+//     MERGE(A,p,q,r)
+//       n1=q-p+1
+//       n2=r-q
+//       //let L[1...n1+1]  and R[1...n2+1] be new arrays
+//       for i=1 to n1
+//           L[i] = A[p+i-1]
+//       for j=1 to n2
+//           R[j] = A[q+j]
+//       L[n1+1] = infinitas
+//       R[n2+1] = infinitas
+//       i = 1
+//       j = 1
+//       for k=p to r
+//           if L[i] <= R[j]
+//              A[k] = L[i]
+//              i = i + 1
+//           else A[k] = R[j]
+//                j = j + 1
+//     MERGE-SORT (A,p,r)
+//       if p<r
+//          q=[(p+r)/2] (取整)
+//           MERGE-SORT (A,q,r)
+//           MERGE-SORT (A,q+1,r)
+//           MERGE (A,p,q,r)
+//     C语言封装成函数如下： //(有问题)
+//void Merge(char arr[],int p,int q,int r)
+//{
+//	int i, j, k, n1, n2;
+//	n1 = q - p;
+//	n2 = r - q;
+//	char L[5], R[5];
+//	for (i = 0; i < n1; i++)
+//		L[i] = arr[p + i];
+//	for (j = 0; j < n2; j++)
+//		R[j] = arr[q + j];
+//	L[i + 1] = 'N';
+//	R[i + 1] = 'N';
+//	i = 0;
+//	j = 0;
+//	for (k = p; k < r; k++)
+//	{
+//		if (L[i] <= R[j])
+//		{
+//			arr[k] = L[i];
+//			i++;
+//		}
+//		else
+//		{
+//			arr[k] = R[j];
+//			j++;
+//		}
+//	}
+//}
+//void Merge_sort(char arr[], int p, int r)
+//{
+//	int q = 0;
+//	if (p < r)
+//	{
+//		q = (p + r) / 2;
+//		Merge_sort(arr, p, q);      // 左列排序
+//		Merge_sort(arr, q + 1, r);  // 右列排序
+//		Merge(arr, p, q, r);        // 合并左右列
+//	}
+//}
+//int main()
+//{
+//	int i;
+//	char arr[6] = { '2','6','4','5','9','1' };
+//	int p = 0;
+//	int r = sizeof(arr);
+//	/*printf("%d", r);*/
+//	Merge_sort(arr, p, r);
+//	for (i = 0; i < r; i++)
+//		printf("%c ", arr[i]);
+//	return 0;
+//}
