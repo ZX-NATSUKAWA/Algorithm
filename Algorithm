@@ -220,3 +220,61 @@
 //		printf("%c ", arr[i]);
 //	return 0;
 //}
+
+// test
+// 2.3-2 重写MERGE，不用哨兵。
+//   MERGE(A,p,q,r)
+//   n1=q-p+1
+//   n2=r-q
+//   for i=1 to n1
+//       L[i]=A[p+i-1]
+//   for j=1 t0 n2
+//       R[j]=A[q+j]
+//   i=1
+//   j=1
+//   while i<=q and j<=r
+//        for k=p to r
+//          if L[i]<=R[j]
+//             A[k]=L[i]
+//             i=i+1
+//          else A[k]=R[j]
+//               j=j+1
+//   while k<=r  
+//        if i == q+1
+//           A[k]=R[j]
+//           k=k+1
+//           j=j+1
+//         else
+//           A[k]=L[i]
+//           k=k+1
+//           j=j+1
+
+// 2.3.4 插入排序：为排序A[1...n],递归排序A[1...n-1],然后插入A[n]，求最坏运行时间递归式
+//   1 分解：当数组只剩一个元素时，耗时为常量，记作o(1)
+//   2 解决：递归求解n-1个元素，需要时间T(n-1)
+//   3 合并：一个具有n-1个元素的数组，插入第n个元素需要时间cn
+//   递归式 T(n) = o(1)         n=1
+//               = T(n-1) + cn  n>1
+
+// 2.3.5 二分法查找最坏运行时间
+//   BINARY_SEARCH(A,x)
+//     low=1
+//     high=A.length
+//     while low<=high
+//       mid=(low+high)/2
+//       if A[mid] == x
+//          return mid
+//       elseif A[mid]<x
+//          low=mid+1
+//       else
+//          high=mid-1
+//   T(n+1)=T(n/2)+c  最坏运行时间o(lgn)
+
+// 2.3.7 给定n个整数的集合S和另一个整数x，确定S中是否存在两个和刚好为x的元素，其运行时间为o(nlgn)
+//   SUM_FIND(S,x)
+//     MERGE_SORT(S,1,S.length) // 先将S从小到大归并排序 o(nlgn)
+//     for i=1 to S.length      // 再二分法查找是否存在两个数和为x。 需要时间： n x o(lgn) = o(nlgn)
+//         if BINARY_SEARCH(S,x-S[i]) != nil // 找到了
+//            return ture
+//     return false                          // 没找到
+//     总运行时间为o(nlgn)
