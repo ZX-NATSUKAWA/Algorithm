@@ -321,3 +321,138 @@
 //             循环后y = ai+x求和(k=0,n-i-1)a(k+i+1) = ai(x的0次幂)+求和(k=1,n-i)a(k+i)(x的k次幂)
 //             y = a(k+i)(x的0次幂) + 求和(k=1,n-i)a(k+i)(x的k次幂) = 求和(k=0,n-i)a(k+i)(x的k次幂)迭代过程中保持成立。
 //     终止：i=-1 ,y=求和(k=0,n)ak(x的k次幂)
+
+// 2.4 逆序对 数组元素大小顺序与下标顺序相反
+//   1 2，3，8，6，1的五个逆序对 ： (3,4),(3,5),(4,5),(1,5),(2,5)
+//   2 {n...2,1}具有最多逆序对，有(n-1+1)(n-1)/2
+//   3 INSERTION_SORT(A):
+//        c=0
+//        for j=2 to A.length
+//            key=A[j]
+//            i=j-1
+//            while i>0 and A[i]>key
+//                  A[i+1]=A[i]
+//                  i=i-1
+//                  c=c+1
+//             A[i-1]=key
+//    Prove：
+//          1 初始化：第一次循环开始前，c=0，A[1]只有一个元素，不存在逆序对，不变式成立。
+//          2 保持：  c为当前A[1...j-1]的逆序对个数。
+//                    本次循环时，在A[1...j-1]中找比A[j]大的元素，直至退出子循环。
+//                    循环结束A[1...j-1]都比A[j]小，A[j+1...n]都比A[j]大。此时c为A[j]与A[1...j-1]的逆序对个数，不变成成立。
+//          3 终止：   j=A.length+1，c为A[1...n]的逆序对个数。
+//    4 
+//int Merge(int arr[], int p, int q, int r)
+//{
+//	int c = 0, k = 0, i, j;
+//	int n1 = q - p + 1;
+//	int n2 = r - q;
+//	int* L = (int*)malloc((n1+1) * sizeof(int));
+//	int* R = (int*)malloc((n2+1) * sizeof(int));
+//	for (i = 0; i < n1; i++)
+//		*(L + i) = arr[p + i];
+//	for (j = 0; j < n2; j++)
+//		*(R + j) = arr[q + 1 + j];
+//	*(L + i) = 100;
+//	*(R + j) = 100;
+//	i = 0;
+//	j = 0;
+//	for (k = p; k <= r; k++)
+//	{
+//		if (*(L + i) <= *(R + j))
+//		{
+//			arr[k] = *(L + i);
+//			i++;
+//		}
+//		else
+//		{
+//			arr[k] = *(R + j);
+//			j++;
+//			c++;
+//		}
+//	}
+//	//while( i<=q && j<=r)
+//	//{
+//	//	for (k = p; k <= r; k++)
+//	//	{
+//	//		if (*(L + i) <= *(R + j))
+//	//		{
+//	//			arr[k] = *(L + i);
+//	//			i++;
+//	//		}
+//	//		else
+//	//		{
+//	//			arr[k] = *(R + j);
+//	//			j++;
+//	//			c++;
+//	//		}
+//	//	}
+//	//}
+//	//while (k <= r)
+//	//{
+//	//	if (i == q + 1)
+//	//	{
+//	//		arr[k] = *(R + j);
+//	//		k++;
+//	//		j++;
+//	//	}	
+//	//	else
+//	//	{
+//	//		arr[k] = *(L + i);
+//	//		k++;
+//	//		j++;
+//	//	}
+//	//}
+//	free(L);
+//	free(R);
+//	return c;
+//}
+//int Merge_sortC(int arr[], int p, int r)
+//{
+//	int c = 0;
+//	if (p < r)
+//	{
+//		int q = (p + r) / 2;
+//		return Merge_sortC(arr, p, q) + Merge_sortC(arr, q + 1, r) + Merge(arr, p, q, r);
+//	}
+//	else
+//		return 0;
+//}
+
+//int Merge_sort(int a[], int p, int q, int r)
+//{
+//	int t[5];
+//	int c = 0;
+//	int i = p;
+//	int j = q + 1;
+//	for (int k = p; k <= r; k++)
+//	{
+//		if ((j > r) || (i <= q) && (a[i] <= a[j]))
+//			t[k] = a[i++];
+//		else
+//		{
+//			t[k] = a[j++];
+//			c += q - i + 1;
+//		}
+//	}
+//	for (i = p; i <= r; i++)
+//		a[i] = t[i];
+//	return c;
+//}
+//int Merge_sortC(int a[], int p, int r)
+//{
+//	if (p < r)
+//	{
+//		int q = p + (r - p) / 2;
+//		return Merge_sortC(a, p, q) + Merge_sortC(a, q + 1, r) + Merge_sort(a, p, q, r);
+//	}
+//	else
+//		return 0;
+//}
+//int main()
+//{
+//	int arr[5] = { 2,3,8,6,1 };
+//	int c = Merge_sortC(arr, 0, 4);
+//	printf("%d", c);
+//	return 0;
+//}
