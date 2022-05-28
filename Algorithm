@@ -650,3 +650,42 @@
 //   Fi = Fi-1 + Fi-2  i>=2
 //   斐波那契数与黄金分割率及其共轭数有关，是方程xx=x+1的两个根
 //   Fi = (黄金分割率i - 其共轭数i)/根号5 = [黄金分割率i/根号5 + 1/2]
+
+
+// test
+// 3.2.1 证明单调性
+//   设a,b是定义域上任意两点，且a<b
+//   因为f(n),g(n)单调递增，所以f(a)<=f(b),g(a)<=g(b)
+//   所以f(a)+g(a)<=f(b)+g(b),即函数f(n)+g(n)单调递增
+//   所以f(g(a))<=f(g(b)),即函数f(g(n))单调递增
+//   若f(n),g(n)>=0,则0<=f(a)g(a)<=f(b)g(b),则函数f(n)g(n)单调递增。
+
+// 3.2.2 证明a的logb(c) = c的logb(a)
+//   等式两端同取logc：logb(c)logc(a)     logb(a)logc(c)
+//                     logb(a)       =    logb(a) 等式成立，即证
+
+// 3.2.3 证明lg(n!) = theta(nlgn)
+//   lg(n!)=lg1 + lg2 + ... +lgn <= lgn + lgn + ... +lgn = nlgn
+//   所以lg(n!) = theta(nlgn)
+//   n! = 1x2x...xn < nxnx...xn = n的n次方,所以n!= o(n的n次方)
+//   n! = 1x2x3x4...xn > 2x2x2x...x2 =2的n次方，所以n! = w(2的n次方)
+
+// 3.2.4 证明[lgN]!无界，[lg(lgN)]!有界
+//   首先，f(n)多项式有界的充分必要条件是 lgf(n) = O(lgn) （存在常数c和n0，当n>=n0时，f(n)<c*n的k次方）
+//   1 设f(n)=(lgn)!   存在常数c和n0，当n>=n0时，lg(f(n)) >= c(lgn)lg(lgn)
+//     由于lg(lgn)是单调递增函数，总可以在n >= n0的范围内找到n >= n1，使得clg(lgn) >= 1
+//     则此时lg(f(n)) >= lgn，并不能满足lgf(n) = O(lgn).  所以(lgn)!并不是多项式有界函数。
+//   2 设f(n)=(lglgn)! 由公式3.2.3，lg(n!)=theta(nlgn)，得lg(f(n))=lg((lglgn)!) = theta(lg(lgn(lglglgn)))
+//     因为对于任意的n > 1，lglglgn < lglgn，则存在常数c和n0，使得n >= n0时，lg(f(n)) <= c(lglgn)²
+//     又因为任意多项式函数都比任意多对数函数增长快，所以c(lglgn)² = O(lgn), 所以lg(f(n)) = O(lgn),则f(n) = (lglgn)!多项式有界。
+
+// 3.2.5 
+//   lg*(lgn)=lg*n+1   lg(lg*n)为lg*n的对数函数，因而lg*(lgn)渐进更大些
+
+// 3.2.6
+//   黄金分割率及其共轭数带入方程xx=x+1即证
+
+// 3.2.8
+//    证明klnk = theta(n) 蕴含着k=theta(n/ln(n)).
+//    当klnk = theta(n)时，则存在正常量c1, c2和n0,使得对所有n ≥ n0,有0 ≤ c1∗n ≤ nln(n) ≤ c2∗n 
+//    此时n>=1,有0<=c1*n/(lnn) <= n <= c2*n/(lnn)，即证
