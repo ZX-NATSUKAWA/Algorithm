@@ -689,3 +689,51 @@
 //    证明klnk = theta(n) 蕴含着k=theta(n/ln(n)).
 //    当klnk = theta(n)时，则存在正常量c1, c2和n0,使得对所有n ≥ n0,有0 ≤ c1∗n ≤ nln(n) ≤ c2∗n 
 //    此时n>=1,有0<=c1*n/(lnn) <= n <= c2*n/(lnn)，即证
+
+// 3.1 
+//   https://blog.csdn.net/victoryaoyu/article/details/76237944
+
+// 3.2 相对渐进增长 （k>=1 e>0 c>1且均为常量）
+//   (lgn)的k次方 <=   n的e次方
+//   n的k次方     <=   c的n次方
+//   根号n        no   n的sinn次方
+//   2的n次方     >=   2的(n/2)次方
+//   n的lgc次方   =    c的lgn次方
+//   lg(n!)       =    lg(n的n次方)
+
+// 3.3 根据渐进增长率排序 (g1=Omiga(g2)=Omiga(g3)=...=Omiga(g30))
+//   2的(2的(n+1)次方)次方
+//   2的(2的n次方)次方
+//   (n+1)!
+//   n!
+//   e的n次方
+//   n(2的n次方)
+//   2的n次方
+//   (3/2)的n次方
+//   n的(lglgn)次方 = (lgn)的lgn次方
+//   (lgn)!
+//   n的3次方
+//   n的平方 = 14的(lgn)次方
+//   nlgn 近似于 lg(n!)
+//   n = 2的lgn次方
+//   (根号2)的lgn次方
+//   2的根号2lgn次方
+//   (lgn)的平方
+//   lnn
+//   根号lgn
+//   lnlnn
+//   2的(lg*n)次方
+//   lg*n 近似于 lg*(lgn)
+//   lg(lg*n)
+//   1 = n的(1/lgn)
+//   不是上述函数上界或下界的函数 (2的(2的(2的(n+1)次方))次方)的sinx次方
+
+// 3.4 渐进记号的性质
+// f(n) = O(g(n)) 不等价于 g(n) = O(f(n))   如 n=O(nn)
+// f(n)+g(n) 不等于 theta(min{f(n),g(n)})   如 n+nn 不等于 theta(min{n,nn})
+// f(n) = O(g(n)) 等价于 lg(f(n)) = O(lg(g(n)),其中对所有足够大的n，有lg(g(n))>=1且f(n)>=1
+// f(n) = O(g(n)) 不等价于 2的f(n)次方=O(2的g(n)次方)  如 2n=O(n),4的n次方不等于O(2的n次方)
+// f(n)>=1时，f(n) = O((f(n))的平方) ；f(n)<1时，不成立。
+// f(n) = O(g(n)) 等价于 g(n) = Omiga(f(n))
+// f(n) 不等于 theta(f(n/2))   如 n! 不等于 theta((n/2)!)
+// f(n)+o(f(n)) = theta(f(n))
