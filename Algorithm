@@ -737,3 +737,34 @@
 // f(n) = O(g(n)) 等价于 g(n) = Omiga(f(n))
 // f(n) 不等于 theta(f(n/2))   如 n! 不等于 theta((n/2)!)
 // f(n)+o(f(n)) = theta(f(n))
+
+// 3.5 Omiga无穷：若存在正常量c，使得对无穷多个整数n，有f(n)>=cg(n)>=0，则称f(n)=Omiga无穷(g(n))
+//   1 对渐进非负的任意两个函数f(n)和g(n),或者f(n)=O(g(n))或者f(n)=Omiga无穷(g(n))或者两者均成立。但Omiga替代Omiga无穷时，命题为假。
+//     若f(n) 不等于 O(g(n)) ,则必有无穷多个正整数n，使f(n)>=cg(n)>=0,即f(n)=Omiga无穷成立。
+//     若f(n) = theta(g(n)),则两者同时成立。
+//     若用Omiga替代Omiga无穷则不一定成立，如n=Omiga无穷(n的sinn次方),但n不等于Omiga(n的sinn次方)
+//   2 Omiga无穷替代Omiga
+//     优点：Omiga无穷对下界要求更宽松，可以兼容更多情况。
+//     缺点：Omiga无穷不是严格的渐进下界，实际意义不大。
+//   3 O'：f(n)=O'(g(n)) only when  |f(n)|=O(g(n))
+//     用O'替代O仍使用Omiga，对定理3.1没有影响。
+//     因为f(n)=O(g(n))成立代表f(n)渐进非负，所有|f(n)|=f(n)。
+//   4 定义软O记号，意指忽略对数因子的O：
+//     软O(g(n)) = {f(n):存在正常量c,k,n0,使得对所有n>=n0,有0<=f(n)<=cg(n)(lg(n))的k次方}
+//     类似定义软Omiga和软theta
+//     软Omiga(g(n)) = {f(n):存在正常量c,k,n0,使得对所有n>=n0，有0<=cg(n)(lg(n))的k次方<=f(n)}
+//     软theta(g(n)) = {f(n):存在正常量c1,c2,k1,k2,n0,使得对所有n>=n0,有0<=c1g(n)(lg(n))的k1次方<=f(n)<=c2g(n)(lg(n))的k2次方}
+
+// 3.6 多重函数：将用于函数lg*的多重操作符*应用于实数集上的任意单调递增函数f(n).
+//   对给定常量c属于R，定义多重函数fc*(n) = min{i>=0,f(i)(n)<=c}
+//   该函数不必在所有情况下都良定义。值fc*(n)是为缩小其参数到c或更小所需函数f重复应用的次数。
+//   对于每个函数f(n)和常数c，给出fc*(n)的一个尽量紧确的界。
+//   f(n)          c          fc*(n)
+//   n-1           0          theta(n)
+//   lgn           1          theta(lg*n)
+//   n/2           1          theta(lgn)
+//   n/2           2          theta(lgn)
+//   根号n         2          theta(lglgn)
+//   根号n         1          无法收敛
+//   n的1/3次方    2          theta(log3(lgn))
+//   n/lgn         2          w(lglgn),o(lgn)
