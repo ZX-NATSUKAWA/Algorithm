@@ -779,3 +779,62 @@
 //     求解递归式的方法：代入法、递归树法、主方法。
 //   递归式技术细节
 //     实际应用中会忽略递归式声明和求解一些技术细节。 如：向下取整或向上取整、边界条件。
+
+// 4.1 最大子数组问题
+//   以股票为例，利益最大化即最低价买入最高价卖出。
+//   若最高价出现在最低价之前，则无法实现理想的利益最大化，因而实际的利益最大化是买入（不一定是最低价）和卖出（不一定是最高价）的差价最高。
+//  4.1.1 暴力求解法
+//    对可能的买进和卖出日期全部组合一边，从中遍历出最大值。 运行时间为Omiga(nn)
+//  4.1.2 问题变换
+//    不再从每日价格的角度看待数据，而是考虑每日价格变化。
+//    第i天价格变化定义为：第i天和第i-1天的价格差。 将价格变化看做一个数组A，则问题转化成找A的和最大的非空连续子数组（最大子数组）。
+//    最大子数组可能不止一个
+//    目前该方法仍需检查（n-1，2）=theta(nn)个子数组，和暴力求解法近似.
+//  4.1.3 分治策略
+//    设寻找子数组A[low...high]的最大子数组。
+//    将数组尽可能分成两个规模相等的子数组，分别找其内部的最大子数组。
+//    最大子数组A[low...high]的任何连续子数组A[i...j]必然位于以下三种情况之一：
+//      1 完全位于子数组A[low...high]中。
+//      2 完全位于子数组A[mid+1...high]中。
+//      3 跨越mid。
+//      对于情况3，将数组分为左右两个数组，分别找出左右的最大子数组，再将它们合并即为所求。
+//      Find_Max_Crossing_Subarray(A,low,mid,high)
+//    1 left-sum = - 无穷
+//    2 sum = 0
+//    3 for i=mid downto low     // 从中点往左找最大子数组
+//    4     sum = sum + A[i]     // 求子数组的和
+//    5     if sum >left-sum     // 如果求和大于之前的最大值
+//    6        left-sum = sum    // 赋值，即为当前左数组的最大子数组
+//    7        max-left = i      // 记录左边界
+//    8 right-sum = -无穷        // 原理同求左数列
+//    9 sum = 0
+//   10 for i=mid+1 to high
+//   11     sum = sum + A[i]
+//   12     if sum>right-sum
+//   13        right-sum = sum
+//   14        max-right = i
+//   15 retrun (max-left,max-right,left-sum+right-sum)
+//   上述过程花费theta(n)的时间
+//   下面用分治法求解最大子数组问题
+//   Find_Maximum_Subarray(A,low,high)
+//  1  if high == low
+//  2     return (low,high,A[low])  // 数组只有一个元素
+//  3  else mid = [(low+high)/2]    // 中点位置向下取整
+//  4       (left-low,left-high,left-sum) = Find_Maximum_Subarray(A,low,mid)               // 情况1，求左数组中的最大子数组
+//  5       (right-low,right-high,right-sum) = Find_Maximum_Subarray(A,mid+1,high)         // 情况2，求右数组中的最大子数组
+//  6       (cross-low,cross-high,cross-sum) = Find_Max_Crossing_Subarray(A,low,mid,high)  // 情况3，求跨mid最大子数组
+//  7  if left-sum >= right-sum and left-sum >= cross-sum         // 如果左数组的最大子数组最大，则它为整个数组的最大子数组
+//  8     return (left-low,left-high,left-sum)
+//  9  elseif right-sum >= letf-sum and right-sum >= cross-sum    // 如果右数组的最大子数组最大，则它为整个数组的最大子数组
+// 10      return (right-low,right-high,right-sum)
+// 11   else return (cross-low,cross-high,cross-sum)               // 如果cross数组的最大子数组最大，则它为整个数组的最大子数组
+//  4.1.4 分治算法分析
+//    1、2行花费常量时间。 T(1) = theta(1)
+//    3花费常量时间。
+//    4、5解决两个规模为n/2的子问题，每个子问题花费T(n/2)
+//    6调用Find_Max_Crossing_Subarray,花费theta(n)
+//    7-11花费theta(1)时间
+//    总体花费T(n) = theta(1) + 2T(n/2) + theta(n) +theta(1) = 2T(n/2) + theta(n)
+//    递归式： T(n) = theta(1)            n=1
+//                  = 2T(n/2) + theta(n)  n>1
+//    利用主方法，求解时间为T(n) = theta(nlgn)   (或者可以用递归树理解)
