@@ -838,3 +838,59 @@
 //    递归式： T(n) = theta(1)            n=1
 //                  = 2T(n/2) + theta(n)  n>1
 //    利用主方法，求解时间为T(n) = theta(nlgn)   (或者可以用递归树理解)
+
+
+// test 
+// 1 当A的所有元素为负数时，Find_Maximum_Subarray返回什么？
+//   返回数组最大元素
+
+// 2 对最大子数组，编写暴力求解方法的伪代码，运行时间为theta(nn)
+//   Sum(A,low,high)
+//     sum = 0
+//     for i=low to high
+//         sum += A[i]
+//     return sum
+// 
+//   Find_Max_Subarray(A,n)
+//     max_sum = -无穷
+//     max_left = 0
+//     max_right = 0
+//     for i=1 to n
+//       for j=i to n
+//         temp_sum = sum(A,i,j)
+//         if temp_sum > max_sum
+//            max_sum = temp_sum
+//            max_left = i
+//            max_right = j
+//     return (max_left,max_right,max_sum)
+
+// 3 暴力算法和递归算法的性能交叉点
+//   theta(nn) = theta(nlgn) 解出n0
+//   在0-n0使用暴力算法，在n0到正无穷使用递归算法
+
+// 4 修改最大子数组定义，允许空子数组为结果，其和为0.
+//   if low = high and a[high]<0
+//      return (-1,-1,0)
+
+// 5 最大子数组的非递归、线性时间算法。
+//   若A[1...j]为最大子数组，求A[1...j+1]的最大子数组。
+//    A[1...j+1]的最大子数组要么是A[1...j]的最大子数组，要么是A[i...j+1].
+//   Find_Max_Subarray(A,n)
+//    low = 1
+//    high = 1
+//    sum = A[1]
+//    for j=2 to n
+//        temp_sum = 0
+//        sum1 = A[j]
+//        low1 = j
+//        high1 = j
+//        for i=j downto 1
+//            temp_sum += A[i]
+//            if temp_sum > sum1
+//               sum1 = temp_sum
+//               low1 = i
+//        if sum1 > sum
+//           sum = suum1
+//           low = low1
+//           high = high1
+//     return(low,high,sum)
