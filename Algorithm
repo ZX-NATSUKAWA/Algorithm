@@ -1142,3 +1142,75 @@
 //       <= (c/4)nn + nn
 //        = (c/4 + 1)nn
 //       <= cnn (when c > 4/3)
+
+// 3 对T(n) = 4T(n/2+2) + n,利用递归树确定一个好的渐近上界，用代入法验证。
+//   T(n) = n + (4(1/2)n+8) + (16(1/4)n+48) +...+ ((4的lgn - 1次方)((1/2)的lgn - 1次方))n + (4的lgn - 1次方)((1/2)的lgn - 3次方+...+2) + theta(nn)
+//        = n求和(0到lgn - 1)(2的i次方) + 求和(1到lgn - 1)(4的(i+1)次方 - 2的(i+2)次方) + theta(nn)
+//        = nn - n + (1/3)(4nn - 8) + 4n - 8 +theta(nn)
+//        = theta(nn)
+//   证明T(n) <= cnn + 2n
+//   T(n) = 4T(n/2+2) + n
+//        < 4c(n/2)(n/2) + 2(n/2) + n
+//        = cnn + 2n
+
+// 4 对T(n) = 2T(n-1) + 1,利用递归树确定一个好的渐近上界，用代入法验证。
+//   T(n) = 1 + 2 + 4 + ... + 2的n-2次方 + theta(2的n-1次方) = theta(2的n次方)
+//   证明T(n) <= c(2的n次方) + n
+//   T(n) = 2T(n-1) + 1
+//       <= 2c(2的n-1次方) + (n-1) + 1
+//       <= c(2的n次方) + n
+
+// 5 对T(n) = T(n-1) + T(n/2) + n,利用递归树确定一个好的渐近上界，用代入法验证。
+//   不是完全二叉树，从lgn到n-1为非完全层。推测T(n) = O(2的n次方)
+//   证明T(n) <= c(2的n次方) - 4n
+//   T(n) = T(n-1) + T(n/2) + n
+//       <= c(2的(n-1)次方 + 2的(n/2)次方) - 4(n-1) - 4n/2 + n
+//       <= c(2的(n-1)次方 + 2的(n/2)次方) - 5n + 1  (when n > 1/4)
+//       <= c(2的(n-1)次方 + 2的(n/2)次方) - 4n      (when n > 2)
+//       <= c(2的m次方) - 4n
+
+// 6 对T(n) = T(n/3) + T(2n/3) + cn,利用递归树论证解为Omiga(nlgn),其中c为常数。
+//   递归树知道log3(n)后才开始不完全，每层代价都为cn
+//   T(n) >= Omiga(nlog3(n)) = Omiga(nlgn)
+
+// 7 对T(n) = 4T([n/2]) + cn,利用递归树解一个渐进紧确界，用代入法验证。
+//   T(n) = cn + 2cn + 4cn +...+ (4的lgn - 1次方)(cn)/(2的lgn - 1次方) + theta(nn)
+//        = cn求和(0到lgn - 1)(2的i次方) + theta(nn)
+//        = cn(2的lgn次方 - 1) + theta(nn)
+//        = theta(nn)
+//   证明T(n) <= cnn + 2cn
+//   T(n) = 4T([n/2]) + cn
+//       <= 4c(n/2)(n/2) + 2cn/2 + cn
+//        = cnn + 2cn
+//   T(n) = 4T([n/2]) + cn
+//       >= 4c(n/2)(n/2) + 2cn/2 + cn
+//        = cnn + 2cn
+//    so T(n) = theta(nn)
+
+// 8 对T(n) = T(n-a) + T(a) + cn,利用递归树解一个渐进紧确解，用代入法验证。
+//   T(n) = cn + cn + c(n-a) + c(n-2a) +...+ c(n-(n/a - 1)a + a) + theta(1)
+//        = cnn/a + c(n/a -1)a - ca求和(1 to (n-a)/a-1)i + theta(1)
+//        = tehta(nn)
+//   证明T(n) <= cnn
+//   T(n) = T(n-a) + T(a) + cn
+//       <= c(n-a)(n-a) + caa + cn
+//       <= cnn - cn(2a-1) + caa + ca (when a>=1,n>(aa+a)/(2a-1))
+//       <= cnn
+//   证明T(n) >= cnn
+//   T(n) = T(n-a) + T(a) + cn
+//       >= c(n-a)(n-a) + caa + cn
+//        = cnn - 2an + 2caa + cn
+//        = cnn + (c-2a)n + 2caa
+//       >= cnn (when c>=2a,a>=0)
+//   so T(n) = theta(nn)
+
+// 9 对T(n) = T(an) + T((1-a)n) + cn,利用递归树解一个渐进紧确解.
+//   T(n) <= cnlg(1/(1-a))n <= cnlgn (1-a <= 1/2)
+//   T(n) = Omiga(nlgn)
+//   证明T(n) <= dnlgn
+//   T(n) = T(an) + T((1-a)n) + cn
+//       <= danlg(an) + c(1-a)nlg((1-a)n) + cn
+//        = danlgn + d(1-a)nlgn + danlga + d(1-a)nlg(1-a) + cn
+//       <= dnlgn + (d(alga + (1-a)lg(1-a))+c)n
+//       <= dnlgn (when d >= -c/(alga + (1-a)lg(1-a))
+//   so T(n) = theta(nlgn)
