@@ -1240,3 +1240,32 @@
 // 4.5.2 使用主方法
 //   分析对应a、b的值，判断 f(n) 与 n的logb(a)次方 的渐近大小。
 //   确定主定理的哪种情况成立，即可得到解。
+
+
+// test
+// 1 主方法求渐近紧确界
+//   a T(n) = 2T(n/4) + 1        theta(n的(1/2)次方)
+//   b T(n) = 2T(n/4) + 根号n    theta(n的(1/2)次方lgn)
+//   c T(n) = 2T(n/4) + n        theta(n)
+//   d T(n) = 2T(n/4) + nn       theta(nn)
+
+// 2 Caesar教授想设计一个渐近快于Strassen算法的矩阵乘法。
+//   采用分治法，将矩阵分解为n/4 x n/4的子矩阵，分解和合并花费theta(nn)时间。
+//   需要创建多少个子问题才能击败Strassen算法？
+//   T(n) = aT(n/4) + theta(nn) 求a的最大整数值。
+//   Strassen: theta(n的lg7次方)
+//   Caesar:   theta(n的log4(a)次方)
+//   log4(a) < lg7  so a<=48
+
+// 3 使用主方法证明，二分查找递归式T(n) = T(n/2) + theta(1) 的解时T(n) = theta(lgn)
+//   a=1  b=2  n的lgb(a)=1=f(n)
+//   so situation2：T(n) = theta(n的logb(a)次方lgn) = theta(lgn)
+
+// 4 主方法能用于递归式T(n) = 4T(n/2) + nnlgn吗？ 给出一个渐近上界
+//   a=4  b=2  n的lgb(a)= nn 
+//   f(n) = nnlgn 渐近大于 nn,但不存在e>0,使f(n) = Omiga(n的logb(a+e)次方)
+//   So can not prove.
+//   用递归树求解：
+//   T(n) = 求和(0 to lgn - 1)nn(lgn - i) + theta(nn)
+//        = (1/2)nn(lgn)的平方 + theta(nn)
+//        = O(nn(lgn)的平方) (when c>=1)
