@@ -1291,3 +1291,17 @@
 //              1 若对某个常数e>0有f(n) = O(n的(logb(a-e))),则g(n) = O(n的logb(a)次方)
 //              2 若f(n) = theta(n的logb(a)次方),则g(n) = theta(n的logb(a)次方lgn)
 //              3 若对某个常数c<1和足够大的n有af(n/b) <= cf(n),则g(n) = theta(f(n))
+//   引理4.4 利用4.3的界和4.2的和式进行求值。
+//           1 T(n) = theta(n的logb(a)次方) + O(n的logb(a)次方)        = theta(n的logb(a)次方)
+//           2 T(n) = theta(n的logb(a)次方) + theta(n的logb(a)次方lgn) = theta(n的logb(a)次方lgn)
+//           3 T(n) = theta(n的logb(a)次方) + theta(f(n))              = theta(f(n))
+
+// 4.6.2 向下取整和向上取整
+//   通过向下或向上取整，将递归式定义在所有整数上。
+//   上下界证明类似，以上界证明为例。
+//   nj(表示序列中第j个元素) = n        j=1
+//                           = [Nj-1/b] j>0
+//   nj <= n/b的j次方 + 求和(0 to j-1)(1/b的i次方) < n/b的j次方 + 求和(0 to 无穷)(1/b的i次方) = n/b的j次方 + b/(b-1)
+//   令j=[logb(n)], nj < b + b/(b-1) = O(1)
+//   T(n) = theta(n的logb(a)次方) + 求和(0 to [logb(n)]-1)(a的j次方)f(nj)
+//   f(nj) <= c(n/b的j次方 + b/(b-1))的logb(a)次方 <= O(n的logb(a)次方/a的j次方)
