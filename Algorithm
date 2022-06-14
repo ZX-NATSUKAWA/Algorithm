@@ -1305,3 +1305,33 @@
 //   令j=[logb(n)], nj < b + b/(b-1) = O(1)
 //   T(n) = theta(n的logb(a)次方) + 求和(0 to [logb(n)]-1)(a的j次方)f(nj)
 //   f(nj) <= c(n/b的j次方 + b/(b-1))的logb(a)次方 <= O(n的logb(a)次方/a的j次方)
+
+
+// test 
+// 1 对b是正整数而非任意实数的情况，给出公式(4.27)中nj的简单而准确的表达式
+//   nj = [N/b的j次方]
+
+// 2 Show that if f(n) = theta(n的logb(⁡a)次方(lgn)次方), where k≥0k≥0, then the master recurrence has solution T(n)=theta(n的logb(a)次方(lgn)的k次方).
+//   For simplicity, confine your analysis to exact powers of b.
+//   g(n) = 求和(0 to logb(n-1)) (a的j次方f(n/b的j次方))
+//   代入f(n) = theta(n的logb(⁡a)次方(lgn)次方)
+//   g(n) = theta(求和(0 to logb(n-1)) a的j次方 x (n/b的j次方)的logb(⁡a)次方 x (lg(n/b的j次方))次方)
+//        = n的logb(a)次方 x 求和(0 to logb(n-1)) (a/(b的logb(a)))的j次方 x (lg(n/b的j次方))次方)
+//        = n的logb(a)次方 x 求和(0 to logb(n-1))(lg(n/b的j次方))次方)
+//        = n的logb(a)次方 x 求和(0 to logb(n-1))((lgn)的k次方 - o((lgn)的k次方)
+//        = n的logb(a)次方 x (logb(n)(lgn)的k次方 + logb(n) x o((lgn)的k次方)
+//        = n的logb(a)次方 x theta(logb(n) x (lgn)的k次方)
+//        = theta(n的logb(a)次方 x (lgn)的k+1次方)
+//   T(n) = theta(n的logb(a)次方) + g(n) 
+//        = theta(n的logb(a)次方) + theta(n的logb(a)次方 x (lgn)的k+1次方)
+//        = theta(n的logb(a)次方 x (lgn)的k+1次方) 即证
+
+// 3 证明主定理情况3被过分强调了，某种意义上，对某个常数c<1,正则条件af(n/b)<=cf(n)成立本身意味着存在常数e>0,使得f(n) = Omiga(n的logb(a+e)次方)
+//   令A = a/c
+//   af(n/b) <= cf(n) 等价为 Af(n/b) <= f(n)
+//   Af(n) <= f(nb)
+//   A的i次方f(n) <= f(n(b的i次方))
+//   A的i次方f(1) <= f(b的i次方)
+//   令n = b的i次方，i = logb(n),则
+//   f(n) = A的logb(n)次方 x f(1) = Omiga(n的logb(A))  (A>a 等价于 A=a+d when c<1,d>0)
+//   等价于 f(n) = n的(logb(a) + logb(d))次方 = n的logb(a+e)次方 (when e=logb(d))
