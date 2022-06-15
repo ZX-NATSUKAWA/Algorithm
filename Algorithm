@@ -1335,3 +1335,76 @@
 //   令n = b的i次方，i = logb(n),则
 //   f(n) = A的logb(n)次方 x f(1) = Omiga(n的logb(A))  (A>a 等价于 A=a+d when c<1,d>0)
 //   等价于 f(n) = n的(logb(a) + logb(d))次方 = n的logb(a+e)次方 (when e=logb(d))
+
+
+// hard test
+// 1 给出每个递归式的渐近上下界，并验证。假定n<=2时，T(n)是常数。
+// a T(n) = 2T(n/2) + nnnn
+//   a=2,b=2,n的logb(a)次方=n < f(n)=nnnn
+//   T(n) = theta(nnnn)
+//   Prove: T(n) <= cnnnn
+//   T(n) = 2T(n/2) + nnnn
+//       <= 2c(n/2)的4次方 + nnnn
+//        = (c/8+1)nnnn
+// b T(n) = T(7n/10) + n
+//   a=1,b=7,n的logb(a)次方=1 < f(n)=n
+//   T(n) = theta(n)
+//   Prove: T(n) <= cn
+//   T(n) = T(7n/10) + n
+//       <= c(7n/10) + n
+//        = (7c/10 + 1)n
+// c T(n) = 16T(n/4) + nn
+//   a=16,b=4,n的logb(a)次方=nn = f(n)=nn
+//   T(n) = theta(nnlgn)
+//   Prove: T(n) <= cnnlgn
+//   T(n) = 16T(n/4) + nn
+//       <= 16c(n/4)的平方lg(n/4) + nn
+//        = cnnlgn +  (1-2c)nn
+//       <= cnnlgn  (when c >= 1/2)
+// d T(n) = 7T(n/3) + nn
+//   a=7,b=3,n的logb(a)次方 < f(n)=nn
+//   T(n) = theta(nn)
+//   Prove: T(n) <= cnn
+//   T(n) = 7(n/3) + nn
+//       <= c7(n/3)的平方 + nn
+//        = (7c/9 + 1)nn
+// e T(n) = 7T(n/2) + nn
+//   a=7,b=2,n的logb(a)次方 > f(n)=nn
+//   T(n) = theta(n的log2(7)次方)
+//   Prove: T(n) <= cn的log2(7)次方 - dnn
+//   T(n) = 7T(n/2) + nn
+//       <= 7c(n/2)的log2(7)次方 -d(n/2)的平方 + nn
+//        = cn的log2(7)次方 + (1 - d/4)nn
+//       <= cn的log2(7)次方 (when d >= 4)
+// f T(n) = 2T(n/4) + 根号n
+//   a=2,b=4,n的logb(a)次方=根号n = f(n)
+//   T(n) = theta((根号n)lgn)
+//   Prove: T(n) <= c(根号n)lgn
+//   T(n) = 2T(n/4) + 根号n
+//       <= 2c(根号n/4)lg(n/4) + 根号n
+//        = c(根号n)lgn + (1 - 2c)(根号n)
+//       <= c(根号n)lgn (when c >= 1/2)
+// g T(n) = T(n-2) + nn
+//   不适用主方法，采用递归树法。
+//   T(n) = nn + (n-2)的平方 + (n-4)的平方 +...+ T(2)
+//        = 求和(0 to n/2 - 1)(n - 2i)的平方 + T(2)
+//        = theta(nnn)
+
+// 2 参数传递的代价
+//  1 数组通过指针传递，时间=theta(1)
+//  2 数组通过元素复制来传递，时间=theta(N) (N为数组规模)
+//  3 传递数组时，只复制过程可能访问的子区域，时间=theta(q-p+1) (子区间长度)
+// a 采用递归二分查找法，求三种情况下最坏运行时间的递归式，并给出解的上界。
+//   1 T(n) = T(n/2) + c =theta(lgn)
+//   2 T(n) = T(n/2) + cN = T(n/4) + 2cN =...= 求和(0 to lgn-1)(2的i次方cN) = cNlgn =theta(nlgn)
+//   3 T(n) = T(n/2) + cn = theta(n)
+// b 采用归并排序
+//   1 T(n) = 2T(n/2) + cn = theta(nlgn)
+//   2 T(n) = 2T(n/2) + cn + 2N 
+//          = 求和(0 to lgn-1)(cn + 2的i次方N) 
+//          = cnlgn + N((2的lgn次方-1)/(2-1))
+//          = cnlgn + nN - N
+//          = theta(nn)
+//   3 T(n) = 2T(n/2) + cn + 2n/2
+//          = 2T(n/2) + (c+1)n
+//          = theta(nlgn)
