@@ -1408,3 +1408,79 @@
 //   3 T(n) = 2T(n/2) + cn + 2n/2
 //          = 2T(n/2) + (c+1)n
 //          = theta(nlgn)
+
+// 3 给出每个递归式的渐近上下界，并验证。假定对足够小的n，T(n)是常数。
+//  1 T(n) = 4T(n/3) + nlgn
+//    a=4,b=3,n的logb(a)次方=n的log3(4)次方=n(n的log3(4/3)次方) > nn > f(n)=nlgn
+//    T(n) = theta(n的log3(4)次方)
+//  2 T(n) = 3T(n/3) + n/lgn
+//    a=3,b=3,n的logb(a)次方=n   f(n)=n/lgn
+//    when n>=2  n的logb(a)次方 >= f(n)   so T(n) = theta(n)
+//    or 积分求和的近似
+//    T(n) = 3T(n/3) + n/lgn = ntheta(1) + 求和(0 to log3(n-1)) (n/(lg n-1))
+//         = theta(n) + 求和(1 + lgn - log3(n)) (1/i)
+//         = theta(nlglgn)
+//  3 T(n) = 4T(n/2) + nn根号n
+//    a=4,b=2,n的logb(a)次方=nn < f(n)
+//    T(n) = theta(nn根号n)
+//  4 T(n) = 3T(n/3 - 2) + n/2
+//    n足够大时，忽略-2. a=3,b=3,n的logb(a)次方n = f(n)
+//    T(n) = theta(nlgn)
+//  5 T(n) = 2T(n/2) + n/lgn
+//    积分求和近似
+//    T(n) = 2T(n/2) + n/lgn
+//         = theta(n) + 求和(0 to lg n-1) (n/(lgn - i))
+//         = theta(nlglgn)
+//  6 T(n) = T(n/2) + T(n/4) + T(n/8) + n
+//    类4.4-6，从log8(n)开始不完全，每层代价为cn，层高为lgn
+//    T(n) >= O(nlgn)
+//  7 T(n) = T(n-1) + 1/n
+//    积分求和近似
+//    T(n) = T(n-1) + 1/n
+//         = 1/n + 1/(n-1) + T(n-2)
+//         = 求和(0 to n-1) (1/(n-i)) + theta(1)
+//         = theta(lgn)
+//  8 T(n) = T(n-1) + lgn
+//    递归树
+//    T(n) = 求和(0 to n-1)(lg n-i)
+//         = 求和(1 to n) (lgi) + theta(1)
+//         = theta(lg(n!))
+//        <= theta(nlgn)
+//  9 T(n) = T(n-2) + 1/lgn
+//    积分求和的近似
+//    T(n) = 1/lgn + 1/lg(n-2) +...+ theta(1)
+//         = 求和(0 to n/2 - 1)(1/lg(n-2i))
+//         = 求和(2 to n)(1/lgi)
+//         = 求和(1 to lgn)(1/i)
+//         = theta(lglgn)
+//  10 T(n) = 根号nT(根号n) + n
+//     换元法 + 主定理
+//     令S(n) = T(n)/n,则S(n) = S(根号n) + 1
+//     考虑n=2的m次方时，有S(2的m次方) = S(2的m/2次方) + 1
+//     令P(m) = S(2的m次方),则P(m) = P(m/2) + 1
+//     a=1,b=2,n的logb(a)次方=1 = f(n)
+//     P(m) = theta(lgm)
+//     T(n) = nS(n) = nP(m) = theta(nlgm) = theta(nlglgn)
+
+// 4 Fibonacci numbers (Fi = Fi-1 + Fi-2)
+//   讨论递归式定义的斐波那契数的性质。使用生成函数技术求解斐波那契递归式。
+//   生成函数(形式幂级数F) F(z) = 求和(0 to 无穷)(Fi(z的i次方))
+//   a Prove:F(z) = z + zF(z) + zzF(z)
+//     F(z) = z + z求和(0 to 无穷)(Fi(z的i次方)) + zz求和(0 to 无穷)(Fi(z的i次方))
+//          = z + 求和(1 to 无穷)(Fi-1(z的i次方)) + 求和(2 to 无穷)(Fi-2(z的i次方))
+//          = z + 求和(2 to 无穷)((Fi-1 + Fi-2)(z的i次方))
+//          = z + 求和(2 to 无穷)(Fi(z的i次方))
+//          = F(z)
+//   b Prove: F(z) = z/(1-z-zz) = z/(1-fz)(1-f'z) = 1/根号5(1/(1-fz) - 1/(1-f'z))
+//     f = (1+根号5)/2  f' = (1 - 根号5)/2
+//     From a: F(z) = z/(1-z-zz)
+//   c Prove: F(z) = 求和(0 to 无穷)(1/根号5(f的i次方 - f'的i次方)(z的i次方))
+//     由几何级数性质1/(1-x) = 求和(0 to 无穷)(x的k次方) (when -1<x<1)
+//     F(z) = 1/根号5(1/(1-fz) - 1/(1-f'z))
+//          = 1/根号5(求和(0 to 无穷)((f的i次方)(z的i次方)) - 求和(0 to 无穷)((f'的i次方)(z的i次方)))
+//          = 求和(0 to 无穷)(1/根号5(f的i次方 - f'的i次方)(z的i次方))
+//   d Prove: 对i>0, Fi = f的i次方/根号5，结果舍入到最接近的整数。
+//     Fi = f的i次方/根号5 - f'的i次方/根号5
+//     Fi = {0，1，2，3，5，8，13，......}
+//     当i>0 , -1<f'<1时， -0.5<f'的i次方/根号5<0.5
+//     所以，对一个整数，加减一个小于0.5的数，对所得结果舍入到最近整数即可。
