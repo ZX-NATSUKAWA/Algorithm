@@ -1537,6 +1537,22 @@
 //        = O(nlgm + m)
 
 
+// 5.3 随机算法
+//   对于如雇佣问题，假设输入的所有排列等可能出现比较有益，通过概率分析可以指导设计一个随机算法。
+//   不是假设输入的一个分布，而是设定一个分布。
+//   在算法运行前，随机排列应聘者。
+//   概率分析中，聘用一个新办公助理的期望次数是lnn；随机算法中，用应聘者有序排名列表来代表特定输入对应一个固定的输出，算法费用依赖输入。
+//   先考虑对应聘者排列，在确定最佳应聘者的随机算法。让随机发生在算法上而不是输入分布上。
+//   对于雇佣问题，代码中唯一改变的是随机变换应聘者序列
+//   Randomized_Hire_Assistant(n)
+//    randomly permute the list of candidates
+//    best = 0
+//    for i=1 to n
+//        interview candidate i
+//        if candidate i is better than candidate best
+//           best = i
+//           hire candidate i
+
 
 
 // 概率分析和随机算法
