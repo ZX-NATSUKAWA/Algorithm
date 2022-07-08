@@ -2148,7 +2148,75 @@
 //         Heapsort:时间复杂度为O(nlgn)，功能是对一个数组进行原址排序。
 //         Max_Heap_Insert,Heap_Extract_Max,Heap_Increase_Key,Heap_Maximum:时间复杂度为O(lgn)，功能是利用堆实现一个优先队列。
 
+// test
+// 1 在高度为h的堆中，元素个数最多和最少分别为多少？
+//   最多 求和(i=1 to h)  (2的i次方)     = 2的h+1次方 - 1
+//   最少 求和(i=1 to h-1)(2的i次方) + 1 = 2的h次方
 
+// 2 证明：含n个元素的堆的高度为[lgn].
+//   2^h <= n <= 2^(h+1) - 1
+//   两边取对数得：lgn - 1 < h <= lgn
+//   so h=[lgn]
+
+// 3 证明：在最大堆的任一子树中，该子树所包含的最大元素在该子树的根结点上。
+//   A[PARENT(i)] >= A[i]对任一子树成立
+//   因此父结点必然>=子结点，根结点是最终的父结点，因而最大。
+
+// 4 假设一个最大堆的所有元素都不相同，那么该堆的最小元素应该位于哪里？
+//   最小元素必然没有子节点，因而应该位于最底层，或者没有子节点的次底层
+
+// 5 一个已经排序好的数组是一个最小堆吗？
+//   顺序递增为最小堆，顺序递减为最大堆
+
+// 6 值为{23,17,14,6,13,10,1,5,7}的数组是一个最大堆吗？
+//   不是，子树中父结点A[4]=6 < A[9]=7 不符合最大堆定义
+
+// 7 证明：当用数组表示存储n个元素的堆时，叶节点下标分别是[n/2]+1,[n/2]+2,...,n
+//   最后一个元素下标为n，说明最后一个有子结点的父结点下标为[n/2]
+//   因此，从最后一个父结点之后全为叶节点，其下标依次加一。
+
+// 6.2 维护堆的性质
+//   Max_Heapify是用于维护最大堆性质的重要过程。
+//   它的输入为一个数组A和一个下标i。
+//   在调用Max_Heapify时，假定根结点为LEFT(i)和RIGHT(i)的二叉树都是最大堆，此时A[i]可能小于子节点。
+//   Max_Heapify让A[i]的值在最大堆中逐级下降，从而使下标i为根节点的子树重新遵循最大堆性质。
+//   Max_Heapify(A,i)
+//   1 l = LEFT(i)
+//   2 r = RIGHT(i)
+//   3 if l <= A.heap-size and A[l] > A[largest]
+//   4    largest = l
+//   5 else largest = i
+//   6 if r <= A.heap-size and A[r] > A[largest]
+//   7    largest = r
+//   8 if largest != i
+//   9    exchange A[i] with A[largest]
+//   10   Max_Heapify(A,largest)
+//   对一棵以i为根结点、大小为n的子树，Max_Heapify的时间代价包括：
+//     调整A[i]、A[LEFT(i)]和A[RIGHT(i)]的关系的时间代价theta(1)
+//     一棵以i的一个孩子为根结点的子树上运行Max_Heapify的时间代价(假设递归发生)
+//   因为每个子树的大小至多为2n/3(最坏情况发生在树的最底层恰好半满时)，递归式为：T(n) <= T(2n/3) + theta(1)
+//   由主定理得 T(n) = O(lgn)
+
+// test
+// 1 说明Max_Heapify(A,3)在数组A={27,17,3,16,13,10,1,5,7,12,4,8,9,0}上的操作过程
+//              27              
+//       17            3        // 3与1换
+//   16     13      10    1     
+//  5  7  12  4    8  9  0  
+
+// 2 Max_Heapify写出能够维护相应最小堆的Min_Heapify(A,i)的伪代码，并比较Min_Heapify与Max_Heapify的运行时间。
+//   Min_Heapify(A,i)
+//   1 l = LEFT(i)
+//   2 r = RIGHT(i)
+//   3 if l <= A.heap-size and A[l] < A[min]
+//   4    min = l
+//   5 else min = i
+//   6 if r <= A.heap-size and A[r] < A[min]
+//   7    min = r
+//   8 if min != i
+//   9    exchange A[i] with A[min]
+//   10   Max_Heapify(A,min)
+//   运行时间相同T(n) = O(lgn)
 
 
 
