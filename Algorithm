@@ -2386,6 +2386,85 @@
 //   在包含n个元素的堆上，Max_Heap_Insert的运行时间为O(lgn)
 //   总之，在一共包含n个元素的堆中，所有优先队列的操作都可以在O(lgn)时间内完成。
 
+// test 
+// 1 说明Heap_Extract_Max在堆A={15,13,9,5,12,8,7,4,0,6,2,1}上的操作过程
+//   15,13,9,5,12,8,7,4,0,6,2,1
+//   1,13,9,5,12,8,7,4,0,6,2
+//   13,1,9,5,12,8,7,4,0,6,2
+//   13,12,9,5,1,8,7,4,0,6,2
+//   13,12,9,5,6,8,7,4,0,1,2
+
+// 2 说明Max_Heap_Insert(A,10)在堆A={15,13,9,5,12,8,7,0,6,2,1}上的操作过程
+//   先在末尾插入一个-inf，再调用Heap_Increase_Key把结点值提高为要插入的key
+//   15,13,9,5,12,8,7,0,6,2,1，-inf
+//   15,13,9,5,12,8,7,4,0,6,2,1,10
+//   15,13,9,5,12,10,7,4,0,6,2,1,8
+//   15,13,10,5,12,9,7,4,0,6,2,1,8
+
+// 3 要求用最小堆实现最小优先队列，请写出Heap_Minimum、Heap_Extract_Min、Heap_Decrease_Key和Min_Heap_Insert的伪代码
+//   Heap_Minimum(A)
+//   1 return A[heap-size]
+ 
+//   Heap_Extract_Min(A)
+//   1 if A.heap-size < 1
+//   2    error "heap underflow"
+//   3 Min = A[1]
+//   4 A[1] = A[A.heap-size]
+//   5 A.heap-size = A.heap-size - 1
+//   6 Min-Heapify(A,1)
+//   7 return min
+
+//   Heap_Decrease_Key(A,i,key)
+//   1 if key > A[i]
+//   2    error "new key is smaller than current key"
+//   3 A[i] = key
+//   4 while i > 1 and A[PARENT(i)] > A[i]
+//   5       exchange A[i] with A[PARENT(i)]
+//   6       i = PARENT(i)
+
+//   Min_Heap_Insert(A,key)
+//   1 A.heap-size = A.heap-size + 1
+//   2 A[A.heap-size] = -无穷
+//   3 Heap_Decrease_Key(A,A.heap-size,key)
+
+// 4 在Max_Heap_Insert的第2行，为什么要先把关键字设为-inf，然后又将其改为所需值?
+//   用已有代码简化操作，否则需要反复比较来找到插入数据的位置。
+
+// 5 试分析使用下列循环不变量，Heap_Increase_Key的正确性：
+//   在算法第4-6行while循环每次迭代开始时，子数组A[1...A.heap-size]，要满足最大堆的性质。
+//   如果违背，只有一种可能：A[i] > A[PARENT(i)]。 这里可以假定在调用Heap_Increase_Key时，A[1...A.heap-size]是满足最大堆性质。
+//   初始化：A[i]=key，i>1循环不变式成立
+//   保持：  如果迭代前循环不变式为真，那么不再进行迭代，此时保持循环不变式（即满足终止情况）。
+//           或者进行A[PARENT(i)]>A[i],i=PARENT(i),此时保持了循环不变式，成立。
+//   终止：  原先A[i]已经被调整到合适位置，数组满足最大堆性质。
+
+// 6 在Heap_Increase_Key的第五行交换操作中，一般需要通过三次赋值来完成。如何利用Insertion_Sort内循环部分思想，只用一次赋值完成这一操作？
+//static Increase_Priority(A, i, key)
+//{
+//	if (key < A[i])
+//		return;
+//	while (i > 1 && A[parent(i)] < key)
+//	{
+//		A[i] = A[parent(i)];
+//		i = parent(i);
+//	}
+//	A[i] = key;
+//}
+
+// 7 说明如何使用优先队列来实现一个先进先出队列，以及如何使用优先队列来实现栈。
+//   队列：每次插入元素的优先级都比上一元素优先级小。弹出时，先进的优先级大，先出。
+//   栈：  每次插入元素的优先级都比上一元素优先级大。弹出时，后进的优先级大，先出。
+
+// 8 Heap_Delete(A,i)操作能将结点i从堆A中删除。对于一个包含n个元素的堆，设计一个能够在O(lgn)时间内完成的Heap_Delete操作。
+//   Heap_Delete(A,i)
+//   1 if A[i] > A[A.heap-size]
+//   2    A[i] = A[A.heap-size]
+//   3    Max_Heapify(A,i)
+//   4 else
+//   5    Heap_Increase_Key(A,i,A[A.heap-size])
+//   6 A.heap-size -= 1
+
+
 
 
 
