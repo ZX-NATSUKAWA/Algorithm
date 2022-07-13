@@ -2464,7 +2464,201 @@
 //   5    Heap_Increase_Key(A,i,A[A.heap-size])
 //   6 A.heap-size -= 1
 
-
+// 9 设计一个时间复杂度为O(nlgk)的算法，它能够将k个有序链表合并为一个有序链表，这里n是所有输入链表包含的总的元素个数。（使用最小堆完成k路归并）
+//#define Element int
+//typedef struct 
+//{
+//	Element Data;
+//	LinkNode* Next;
+//}LinkNode;
+//int GetLength(LinkNode* head)
+//{
+//	return head->Data;
+//}
+//void Add(LinkNode* head, Element Data)
+//{
+//	LinkNode* point = head;
+//	for (; point->Next != NULL; point++)
+//	{
+//		point = point->Next;
+//	}
+//	LinkNode* node;
+//	printf("请输入新结点数据：");
+//	scanf_s("%d", &node->Data);
+//	point->Next = node;
+//	head->Data++;
+//}
+//void Delete(LinkNode* head, int index)
+//{
+//	if (index < 0 || index >= GetLength(head))
+//	{
+//		printf("请检查目录！");
+//		return ;
+//	}
+//	LinkNode* point = head;
+//	for (int i = 0; i < index; i++)
+//	{
+//		point = point->Next;
+//	}
+//	point->Data = point->Next->Data;
+//	point->Next = point->Next->Next;
+//	head->Data--;
+//}
+//void Insert(LinkNode* head, int index)
+//{
+//	if (index < 0 || index >= GetLength(head))
+//	{
+//		printf("请检查目录！");
+//		return;
+//	}
+//	LinkNode* point = head;
+//	for (int i = 0; i < index; i++)
+//	{
+//		point = point->Next;
+//	}
+//	LinkNode* node;
+//	printf("请输入新结点数据：");
+//	scanf_s("%d", &node->Data);
+//	point->Next = node;
+//	head->Data++;
+//}
+//int Search(LinkNode* head,Element data)
+//{
+//	LinkNode* point = head;
+//	int index = 0;
+//	while (point != NULL)
+//	{
+//		if (point->Data == data)
+//		{
+//			printf("数据:%d 位于链表的第%d位", data, index);
+//			return index;
+//		}
+//		index++;
+//		point = point->Next;
+//	}
+//	return -1;
+//}
+//int GetData(LinkNode* head, int index)
+//{
+//	if (index < 0 || index >= GetLength(head))
+//	{
+//		printf("请检查目录！");
+//		return;
+//	}
+//	LinkNode* point = head;
+//	for (int i = 0; i <= index; i++)
+//	{
+//		point = point->Next;
+//	}
+//	return point->Data;
+//}
+//void Traverse(LinkNode* head)
+//{
+//	LinkNode* point = head;
+//	while (point->Next != NULL)
+//	{
+//		point = point->Next;
+//		printf("数据为:%d ", point->Data);
+//	}
+//	printf("遍历完成！");
+//}
+//typedef struct
+//{
+//	int heapsize;
+//	LinkNode* heap;
+//}Minheap;
+//int Left(int i)
+//{
+//	return i << 1;
+//}
+//int Right(int i)
+//{
+//	return ((i << 1) + 1);
+//}
+//int Parent(int i)
+//{
+//	return i >> 1;
+//}
+//
+//void Min_Heapify(Minheap* A, int i)
+//{
+//	int smallest = i;
+//	int l = Left(i + 1);
+//	int r = Right(i + 1);
+//	if (l <= A->heapsize && GetData(A->heap,l-1) < A->heap->Data)
+//	{
+//		smallest = l - 1;
+//	}
+//	if (r <= A->heapsize && GetData(A->heap, r - 1) < GetData(A->heap, smallest))
+//	{
+//		smallest = r - 1;
+//	}
+//	if (smallest != i)
+//	{
+//		Minheap* temp = A->heap[smallest];
+//		A->heap[smallest] = A->heap[i];
+//		A->heap[i] = temp;
+//	}
+//}
+//void BuildMinheap(Minheap* A)
+//{
+//	for (int i = A->heapsize; i >= 0; i--)
+//	{
+//		Min_Heapify(A,i);
+//	}
+//}
+//int GetHeapSize(Minheap* A)
+//{
+//	return A->heapsize;
+//}
+//void AlterHeapSize(Minheap* A, int i)
+//{
+//	A->heapsize = i;
+//}
+//Minheap* GetElement(Minheap* A, int i)
+//{
+//	return A->heap[i];
+//}
+//void SetElement(Minheap* A, LinkNode* key, int i)
+//{
+//	A->heap[i] = key;
+//}
+//void Swap(Minheap* A, int i, int j)
+//{
+//	A->heap[i], A->heap[j] = A->heap[j], A->heap[i];
+//}
+//LinkNode* Append(Minheap* A, LinkNode* i)
+//{
+//	A->heap = Append(A->heap, i);
+//}
+//Minheap* NewMinheap(int heapsize, LinkNode* a[])
+//{
+//	Minheap* minheap = Minheap{ heapsize:heapsize,heap : a };
+//	minheap.BuildMinheap();
+//	return minheap;
+//}
+//LinkNode* KMerge(LinkNode* linkedListArr[])
+//{
+//	l = LinkNode{ Data:0,Next : nil };
+//	a = NewMinHeap(len(linkedListArr), linkedListArr);
+//	while (a.GetHeapSize() > 0)
+//	{
+//		linkNode = a.heap[0];
+//		l.Add(linkNode.Data);
+//		if (linkNode.Next != NULL)
+//		{
+//			a.SetElement(0, linkNode.Next);
+//			a.Min_Heapify(0);
+//		}
+//		else
+//		{
+//			a.heap[0], a.heap[a.GetHeapSize() - 1] = a.heap[a.GetHeapSize() - 1], a.heap[0];
+//			a.AlterHeapSize(a.GetHeapSize() - 1);
+//			a.MinHeapify(0);
+//		}
+//	}
+//	return &1;
+//}
 
 
 
