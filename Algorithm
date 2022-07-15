@@ -2660,7 +2660,159 @@
 //	return &1;
 //}
 
+// hard test
+// 1 用插入的方法建堆
+//   通过反复调用Max_Heap_Insert向一个堆中插入元素，用BUild_Max_Heap'如下实现方式：
+//   Build_Max_Heap'(A)
+//   1 A.heap-size = 1
+//   2 for i=2 to A.length
+//   3     Max_Heap_Insert(A,A[i])
+//   a 当输入数据相同的时候，Build_Max_Heap' 和Build_Max_Heap生成的堆是否总是一样？
+//     不是总一样，叶结点顺序不同。 对于一个数组A{3,2,1,4,5}运行Build_Max_Heap'时得到54123，运行Build_Max_heap时得到54132
+//   b 证明：在最坏情况下，调用Build_Max_Heap'建立一个包含n个元素的堆的时间复杂度为theta(nlgn)
+//     每次插入花费O(lgn),共插入n次，时间复杂度O(nlgn)。
 
+// 2 d叉堆分析
+//   d叉堆与二叉堆类似，但其中每个非叶结点有d个孩子而不仅是2个。
+//   a 如何在一个数组中表示d叉堆？
+//     PARENT[i] = math.Floor((i+1)/d)  child(k,i) = (i-1)*d +1+k (i代表数组第i个元素，k表示第k个子元素)
+//   b 包含n个元素的d叉堆高度是多少？
+//     logd(n*(d-1))
+//   c 请给出Extract_Max在d叉最大堆上的一个有效实现，并用d和n表示出它的时间复杂度。
+//     Extract_Max
+//     1 if A.heap-siz<1 
+//     2    err "heap underflow"
+//     3 max = A[1]
+//     4 A[1] = A[heap-size]
+//     5 A.heap-size--
+//     6 Dmax_Heapify(A,1)
+//     Dmax_Heapify(A,i)
+//     1 largest = i
+//     2 for k=1 to A.heapsize
+//     3     if child(k,i)<= A.heap-size and A[child(k,i)] > A[i]
+//     4        largest = child(k,i)
+//     5 if largest != i 
+//     6    exchange A[i] with A[largest]
+//     7    Dmax_Heapify(A,largest)
+//     时间复杂度为dlogd(n)
+//   d 给出Insert在d叉最大堆上的一个实现，并用d和n表示出它的时间复杂度。
+//     Insert
+//     1 A.heap-size++
+//     2 A[A.heap-size] = key
+//     3 i = A.heap-size
+//     4 while i>1 and A[PARENT(i)]<A[i]
+//     5       exchange A[i] with A[PARENT(i)]
+//     6       i = PARENT(i)
+//     时间复杂度为O(logd(n))
+//   e 给出Increase_Key(A,i,k)的一个有效实现，并用d和n表示出它的时间复杂度。
+//     否则执行A[i]=k，并更新相应的d叉最大堆，并用d和n表示它的时间复杂度。
+//     Increase_Key(A,i,k)
+//     1 if key<A[i]
+//     2    err"new key is smaller than current key"
+//     3 A[i] = key
+//     4 while i>1 and A[PARENT(i)]<A[i]
+//     5       exchange A[i] with A[PARENT(i)]
+//     6       i = PARENT(i)
+//     时间复杂度为O(logd(n))
+
+// 3 Young氏矩阵 
+//   在一个mxn的Young氏矩阵中，每一行数据都是从左向右排序的，每一列数据都是从上到下排序的。Young氏矩阵中也会存在一些值为inf的数据项表示不存在的数。
+//   因此Young tableau可以用来存储r<=mn个有限数。
+//   a 画出一个包含元素为{9,16,3,2,4,8,5,14,12}的4x4 Young tableau
+//     2   4   12  14
+//     3   5   16  inf
+//     8   9   inf inf
+//     inf inf inf inf
+//   b 对于一个mxn的Young tableau Y来说，请证明：如果Y[1,1]=inf,则Y为空；如果Y[m,n]<inf,则Y为满。
+//     先给出Young tableau的性质1：对于矩阵中的任意一个元素Y[i,j],如果i'<=i且j'<=j，那么一定有Y[i',j']<=Y[i,j].
+//     证明：同一行中，左边元素不大于右边元素，所以有Y[i',j'] <= Y[i',j].
+//           同一列中，上边元素不大于下边元素，所以有Y[i',j]  <= Y[i,j]
+//           综上，Y[i',j']<=Y[i,j]
+//     类似的，有性质2：对于矩阵中的任意一个元素Y[i,j],如果i'>=i且j'>=j ,那么一定有Y[i',j']>=Y[i,j]
+//     证明原题：
+//         根据性质1、2，Y[1,1]是Young tableau中最小的元素，因为Y[1,1]=inf ，所以全部元素都为inf，所以数组为空。
+//                       Y[m,n]是Young tableau中最大的元素，Y[m,n]<inf，所以全部元素<inf，所以数组为满。
+//   c 请给出一个在mxn Young tableau上时间复杂度为O(m+n)的Extract_Min的算法实现。
+//     可以考虑使用一个递归过程，将规模为mxn的问题分解为(m-1)xn 或mx(n-1)的子问题(考虑使用Max_Heapify)
+//     定义T(p)用来表示Extract_Min在任意mxn的Young tableau上的时间复杂度，其中p=m+n.给出并求解T(p)的递归表达式，其结果为O(m+n)
+//     Young_Matrix_Extract_Min(Y)
+//     1 m = Y.rows
+//     2 n = Y.columns
+//     3 if m<1 or n<1
+//     4    error "Young Matrix underflow"
+//     5 min = Y[1,1]
+//     6 if min=inf
+//     7    error "Young Matrix empty"
+//     8 Y[1,1] = inf
+//     9 i = 1
+//    10 j = 1
+//    11 while true
+//    12       if i<m
+//    13          smallest = BOTTOM
+//    14          if j<n && Y[i,j+1]<Y[i+1,j]
+//    15             smallest = RIGHT
+//    16          else if j<n
+//    17               smallest = RIGHT
+//    18          else
+//    19                break
+//    20          if smallest=BOTTOM && Y[i+1,j]<Y[i,j]
+//    21             exchange Y[i,j] with Y[i+1,j]
+//    22             i=i+1
+//    23           else if smallest=BOTTOM && Y[i,j+1]<Y[i,j]
+//    24             exchange Y[i,j] with Y[i,j+1]
+//    25             j=j+1
+//    26           else
+//    27             break
+//    28 return min
+//    while迭代中，要么i+1，要么j+1，最多加到m、n因此迭代最多m+n次，因此时间复杂度为O(m+n)
+//   d 试说明如何在O(m+n)时间内，将一个新元素插入到一个未满的mxn的Young tablau中。
+//     Young_Matrix_Insert(Y,key)
+//     1 m = Y.rows
+//     2 n = Y.columns
+//     3 if m<1 or n<1
+//     4    error "Young Matrix underflow"
+//     5 if Y[m,n]<inf
+//     6    error "Young Matrix full"
+//     7 Y[m,n] = key
+//     8 i = m
+//     9 j = n
+//    10 while ture
+//    11       if i>1
+//    12          largest = TOP
+//    13          if j>1 && Y[i,j-1]>Y[i-1,j]
+//    14             largest = LEFT
+//    15       else if j>1
+//    16          largest = LEFT
+//    17       else
+//    18          break
+//    19       if largest=TOP && Y[i-1,j]>Y[i,j]
+//    20          exchange Y[i,j] with Y[i-1,j]
+//    21          i--
+//    22       else if largest=LEFT && Y[i,j-1]>Y[i,j]
+//    23          exchange Y[i,j] with Y[i,j-1]
+//    24          j--
+//    25       else
+//    26          break
+//   e 在不用其他排序算法的情况下，试说明如何利用一个nxn的Young tableau在O(nnn)时间内将nn个数进行排序。
+//     建立一个nxn的Young tableau，用Insert将每一个元素依次插入矩阵。每次插入耗时O(n+n)=O(n),nn个元素耗时nnO(n)=O(nnn)
+//     再调用Extract_Min依次取出最小元素即可完成排序，这一步花费O(nnn)
+//     总共花费O(nnn)
+//   f 设计一个时间复杂度为O(m+n)的算法，可以判断一个给定的数是否存储再mxn的Young tableau中
+//     Young_Matrix_Search(Y,key)
+//     1 m = Y,rows
+//     2 n = Y.columns
+//     3 i = m
+//     4 j = 1
+//     5 while i>=1 && j<=n
+//     6       if key > Y[i,j]
+//     7          j++
+//     8       else if key<Y[i,j]
+//     9          i--
+//    10       else
+//    11          print "x is at (i,j)"
+//    12          return
+//    13 print "x is not in Y"
+//    时间复杂度为O(m+n)
 
 
 
