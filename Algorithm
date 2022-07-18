@@ -2956,7 +2956,26 @@
 //   最小深度：设最大深度为m，每次向a分割方向下降，m次划分后仅剩一个元素n*a~m=1,a~m=1/n,两边取对数mlga=lg1-lgn,m=-lgn/lga
 //   最大深度：同理n*((1-a)~m)=1,(1-a)~m=1/n，两边取对数，mlg(1-a)=-lgn,m=-lgn/lg(1-a)
 
+// 7.3 快速排序的随机化版本
+//   打破所有输入等可能出现的假设，引入随机性。采用随机抽样的技术，将分析简化。
+//   随机抽样从子数组中随机选出一个元素作为主元。先将A[r]与A[p...r]中一个随机元素交换。
+//   期望在平均情况下，对输入数组的划分比较均衡。
+//   Randomized_Partition(A,p,r)
+//   1 i = Random(p,r)
+//   2 exchange A[r] with A[i]
+//   3 return Partition(A,p,r)
+//   Randomized_Quicksort(A,p,r)
+//   1 if p<r
+//   2    q = Randomized_Partiton(A,p,r)
+//   3    Randomized_Quicksort(A,p,q-1)
+//   4    Randomized_Quicksort(A,q+1,r)
 
+// test
+// 1 为什么分析随机化算法的期望运行时间，而不是其最坏运行时间呢？
+//   因为它代表的时间成本更为典型。（最坏运行时间出现概率小）
+
+// 2 在Randomized_Quicksort的运行过程中，在最坏情况下，随机数生成器Random被调用了多少次？最好情况呢？
+//   T(n) = T(n-1) + 1 = theta(n)
 
 
 
