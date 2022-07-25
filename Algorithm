@@ -3265,7 +3265,66 @@
 //         期望运行时间为theta(n) + nO(2 - 1/n) = theta(n)
 //         即使输入数据不服从均匀分布，桶排序也仍然可以线性时间内完成。只需要输入数据满足：所有桶的大小的平方和与总的元素数呈线性关系。
 
+// test 
+// 1 说明Bucket_Sort在数组A={0.79,0.13,0.16,0.64,0.39,0.20,0.89,0.53,0.71,0.42}上的操作过程
+//       A         B
+//   1  0.79     0 /
+//   2  0.13     1    0.13   0.16  /
+//   3  0.16     2    0.20   /
+//   4  0.64     3    0.39   /
+//   5  0.39     4    0.42   /
+//   6  0.20     5    0.53   /
+//   7  0.89     6    0.64   /
+//   8  0.53     7    0.71   0.79  /
+//   9  0.71     8    0.89   /
+//  10  0.42     9    /
 
+// 2 解释为什么桶排序在最坏情况下运行时间是theta(nn)？我们应该如何修改算法，使其保持平均情况为线性时间代价的同时，最坏情况下时间代价为theta(nlgn)?
+//   桶排序最坏情况，所有元素在一个桶内用插入排序排，插入排序最坏耗时theta(nn)，所以桶排序最坏情况运行时间为theta(nn)。
+//   将桶排序内部的排序换成时间复杂度为O(nlgn)的排序算法(如堆排序、快排、归并排序)，但桶排序涉及链表，只能使用归并排序。
+
+// 3 设X是一个随机变量，用于表示将一枚硬币抛掷两次时，正面朝上的次数。E[X~2]是多少？(E[X])~2是多少？
+//   X    0    1    2
+//  P(X)  1/4  1/2  1/4
+//   E[X~2] = 0~2*1/4 + 1~2*1/2 + 2~2*1/4 = 1.5
+//   (E[X])~2 = (0*1/4 + 1*1/2 + 2*1/4)~2 = 1
+
+// 4 在单位圆内给定n个点，Pi=(xi,yi)，对所有i=1,2,..,n，有0<xi~2 + yi~2<=1
+//   假设所有的点服从均匀分布，即在单位圆的任一区域内找到给定点的概率与该区域的面积成正比。
+//   请设计一个在平均情况下有theta(n)时间代价的算法，能够按照点到原点之间的距离di=根号(xi~2 + yi~2)对这n个点进行排序。
+//   提示：在Bucket_Sort中，设计适当的桶大小，用以反映各个点在单位圆中均匀分布情况。
+//   将单位圆按同心圆面积n等分。即S=pie，每个区域s=pie/n，对应同心圆区域的半径ri=根号(i/n)(i=1,2,...,n)
+//   对于第i个等分区域，点到圆心距离属于(ri-1,ri]。对单位圆内的n个点进行桶排序，依据点到圆心距离放入桶。
+//   由于按面积等分，按距离放桶，在点如桶前，需要采用二分法，查找点所在区间，耗时O(n);或者用面积做参考，对点(xi,yi)，经过该点的同心圆面积Ai=pie(xi~2 + yi~2),放入第[Ai/S]=[N(xi~2 +yi~2)]个桶中。
+//   Circle_Point_Bucket_Sort(X,Y)
+//   1 n = X.length
+//   2 create 2 new arrays Bx[1...n] and By[1...n]
+//   3 for i=1 to n
+//   4     make Bx[i] an empty list
+//   5     make By[i] an empty list
+//   6 for i=1 to n
+//   7     j = [N(xi~2 + yi~2)]
+//   8     insert X[i] into list Bx[j]
+//   9     insert Y[i] into list By[j]
+//  10 for i=1 to n
+//  11     sort list Bx[i] with insertion sort
+//  12     sort list By[i] with insertion sort
+//  13 concatenate the lists Bx[1],Bx[2],...,Bx[n] together in order
+//  14 concatenate the lists By[1],Bu[2],...,By[n] together in order
+
+// 5 定义随机变量X的概率分布函数P(x)=Pr{X<=x}。假设有n个随机变量Xi服从一个连续概率分布函数P，且可以在O(1)时间内被计算得到。设计一个算法，使其能够在平均情形下在线性时间内完成这些数的排序。
+//   根据概率函数P(x)将随机变量Xi划分到n个桶内。对于任一Xi，将其放入第[NP(X[i])]个桶。如果n个随机变量Xi服从概率分布函数P(x),那么执行上述划分后，所有随机变量应当会均匀分布在所有桶中。
+//   Random_Variable_Bucket_Sort(X)
+//   1 n = X.length
+//   2 create a new array B[1...n]
+//   3 for i=1 to n
+//   4     make B[i] an empty list
+//   5 for i=1 to n
+//   6     j = [NP(X[i])]
+//   7     insert X[i] into list B[j]
+//   8 for i=1 to n
+//   9     sort list B[i] with insertion sort
+//  10 concatenate the lists B[1],B[2],...,B[n] together in order
 
 
 
