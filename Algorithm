@@ -3359,6 +3359,40 @@
 //   (提示：考虑有多少个数有成为最大值或最小值的潜在可能，然后分析每次比较如何影响这些计数)
 //   输入元素两两比较，较小比最小值，较大比最大值2个元素每次循环比较3次，仅需n/2次循环，总比较次数为[3N/2]-2
 
+// 9.2 期望为线性时间的选择算法
+//   一般选择问题比找最值要难，但两个问题的渐近运行时间相同：theta(n)
+//   采用分治算法Randomized_Select只处理划分的一边，利用Randomized_Partition过程。
+//   Randomized_Select(A,p,r,i)
+//   1 if p==r
+//   2    return A[p]
+//   3 q = Randmized_Partition(A,p,r)
+//   4 k = q-p+1
+//   5 if i==k
+//   6    return A[q]
+//   7 else if i<k
+//   8    return Randomized_Select(A,p,q-1,i)
+//   9 else return Randomized_Select(A,q+1,r,i-k)
+//   Randomized_Select的最坏情况运行时间为theta(nn)。
+//   分析Randomized_Select的期望运行时间，设该算法在一个含有n个元素的输入数组A[p...r]上的运行时间是一个随机变量，记为T(n)
+//   Randomized_Partition能等概率的返回任何元素作为主元。对每个k，子数组A[p...q]有k个元素的概率为1/n。
+//   对所有k=1,2,...,n，定义指示器随机变量Xk为：Xk=I{子数组A[p,,,q]正好包含k个元素}，假设元素互异，有E[Xk]=1/n
+//   当调用Randomized_Partition并选择A[q]作为主元时，事先不知道是否会得到正确答案而立即结束，在两个子数组上递归。
+//   该过程依赖于第i小的元素相对于A[q]（主元）落在哪个位置。
+//   T(n) <= 求和(k=1 to n)(Xk*(T(max(k-1,n-k))+O(n)))
+//   E[T(n)] <= E[求和(k=1 to n)(Xk*(T(max(k-1,n-k)))) + O(n)]
+//            = 求和(k=1 to n)(E[Xk]*E[T(max(k-1,n-1k))]) + O(n)
+//            = 求和(k=1 yo n)(1/n*E[T(max(k-1,n-k)]) + O(n)
+//   对max(k-1,n-k) = k-1 若k>[N/2]
+//                  = n-k 若k<=[N/2]
+//   如果n为偶数，从T([N/2])到T(n-1)的每一项在总和中恰好出现两次；如果n为奇数，除了T([N/2])出现一次外，其他项出现两次，有：
+//   E[T(n)] <= 2/n求和(k=[n/2] to n-1)(E[T(k)]) + O(n)
+//   用替代假设法得到E[T(n)] = O(n). 假设对满足这个递归式初始条件的某个常数c，有E[T(n)]<=cn,对所有n>0，O(n)所描述的函数有上界an
+//   E[T(n)] <= 2/n求和(k=[n/2] to n-1)(ck) + an
+//           <= cn - (cn/4 - c/2 - an) (when n<2c/(c-4a))
+
+
+
+
 
 
 
