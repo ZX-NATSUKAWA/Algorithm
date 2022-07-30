@@ -3475,6 +3475,109 @@
 //  10 else
 //        return Select(A,q+1,r,i-k)
 
+// 6 对一个包含n个元素的集合，k分位数是指能把有序集合分成k个等大小集合的第k-1个顺序统计量。给出一个能找出某一集合的k分位数的O(nlgk)时间的算法
+//   利用类似二分法进行查找。k偶数时，即为原本的二分法；k奇数时，近似二分法，[k/2]附件的整数进行划分。形成一棵递归树，树高为lgk，每层最多O(n).
+
+// 7 设计一个O(n)时间算法，对于给定的包含n个互异元素的集合S和一个正整数k<=n，该算法能确定S中最接近中位数的k个元素。
+//   1 求出中位数x
+//   2 用x减去集合中的每个数得到差的绝对值存储在数组b中
+//   3 求b中第k小的数d
+//   4 遍历原集合，输出集合中数据与x差的绝对值<=d的数
+//using namespace std;
+//void swap(int x, int y)
+//{
+//	int temp;
+//	temp = x;
+//	x = y;
+//	y = temp;
+//}
+//int Partition(int a[], int low, int high,int x)
+//{
+//	int i = low;
+//	high--;
+//	while (a[i] != x)
+//	{
+//		i++;
+//	}
+//	swap(a[low], a[i]);
+//	while (low < high)
+//	{
+//		while (low < high && a[high] >= x)
+//		{
+//			high--;
+//		}
+//		a[low] = a[high];
+//		while (low < high && a[low] <= x)
+//		{
+//			low++;
+//		}
+//		a[high] = a[low];
+//	}
+//	a[low] = x;
+//	return low;
+//}
+//int Select(int* a, int low, int high, int k)
+//{
+//	int i, j, x, q, n;
+//	n = high - low;
+//	if (n < 5)
+//	{
+//		sort(a + low, a + high);
+//		return a[low + k - 1];
+//	}
+//	for (i = 0; i < n / 5; i++)
+//	{
+//		sort(a + low + i * 5, a + low + i * 5 + 5);
+//		swap(a[low + i], a[low + i * 5 + 2]);
+//	}
+//	x = Select(a, low, low + n / 5, n / 10 + 1);
+//	j = Partition(a, low, high, x);
+//	q = j - low + 1;
+//	if (q == k)
+//	{
+//		return x;
+//	}
+//	else if (q > k)
+//	{
+//		return Select(a, low, j + 1, k);
+//	}
+//	else
+//		return Select(a, j + 1, high, k - q);
+//}
+//void Select_K_Numbers(int* a, int n, int k)
+//{
+//	int* b = new int[n];
+//	int i, x, d;
+//	x = Select(a, 0, n, (n + 1) / 2);
+//	for (i = 0; i < n; i++)
+//	{
+//		b[i] = abs(a[i] - x);
+//	}
+//	d = Select(b, 0, n, k);
+//	for (i = 0; i < n; i++)
+//	{
+//		if (abs(a[i] - x) <= d)
+//		{
+//			printf("%d ", a[i]);
+//		}
+//		printf("/n");
+//	}
+//}
+//int main()
+//{
+//	int const n = 9;
+//	const int k = 3;
+//	int a[n] = { 8,4,1,-89,-12,0,36,789 };
+//	Select_K_Numbers(a, n, k);
+//	return 0;
+//}
+
+
+
+
+
+
+
 
 
 
