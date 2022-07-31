@@ -3572,7 +3572,34 @@
 //	return 0;
 //}
 
-
+// 8 设X[1...n]和Y[1...n]，每个都包含n个有序的元素。请设计一个O(lgn)时间的算法来找出数组X和Y中所有2n个元素的中位数。
+//int Search_Median(int* a, int* b, int n, int low, int high)
+//{
+//	while (low < high)
+//	{
+//		int middle = (low + high) / 2;
+//		if (middle == n - 1 && a[middle] <= b[0])
+//		{
+//			return a[middle];
+//		}
+//		else if (middle < n - 1)
+//		{
+//			if (a[middle] <= b[n - middle - 1] && a[middle] >= b[n - middle - 2])
+//			{
+//				return a[middle];
+//			}
+//			else if (a[middle] >= b[n - middle - 1])
+//			{
+//				high = middle - 1;
+//			}
+//			else
+//			{
+//				low = middle + 1;
+//			}
+//		}
+//	}
+//	return -1;
+//}
 
 
 
