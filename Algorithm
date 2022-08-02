@@ -3628,7 +3628,126 @@
 //     13：介绍红黑树，二叉搜索树的变种，一种平衡搜索树，称为B树。
 //     14：给出如何将红黑树扩张，使其支持基本操作外的一些操作。对关键字集合能够动态维护顺序统计量，实数区间的维护。
 
+// 10 基本数据结构
+//    讨论如何使用指针的简单数据结构来表示动态集合。栈、队列、链表和有根树，由数组构造对象和指针的方法。
+// 10.1 栈和队列
+//  栈和队列都是动态集合，其上进行delete操作所移除的元素是预先设定的。
+//  在栈中，被删除的是最近插入的元素：即实现一种后进先出策略。
+//  在队列中，被删除的是存在时间最长的元素：先进先出策略。
+// 10.1.1 栈(stack)
+//  栈上insert操作被称为压入(push)，无元素参数的delete操作被称为弹出(pop).
+//  数组[1...n]来实现一个最多容纳n个元素的栈。该数组有一个属性S.top指向最新插入的元素。栈中包含的元素为S[1...S.top]，其中S[1]是栈底元素，S[S.top]是栈顶元素。
+//  当S.top=0时，栈中不含元素，即栈是空的。 测试一个栈是否为空可以用查询操作Stack_Empty。 如果试图对空栈执行弹出，则称栈下溢(underflow)，如果S.top超过n，则称栈上溢(overflow)
+//  栈的几种操作只需：
+//  Stack_Empty(S)
+//  1 if S.top == 0
+//  2    return TRUE
+//  3 else return FALSE
 
+//  Push(S,x)
+//  1 S.top = S.top + 1
+//  2 S[S.top] = x
+
+//  Pop(S,x)
+//  1 if Stack_Empty(S)
+//  2    error"underflow"
+//  3 else S.top = S.top - 1
+//  4    return S[S.top + 1]
+//  三种操作都耗时O(1)
+
+// 10.1.2 队列(queue)
+//  队列上insert操作称为入队(enqueue)，delete操作称为出队(dequeue);dequeue操作也没有元素参数。
+//  队列有队头(head)和队尾(tail)，当有一个元素入队时，放在队尾。
+//  数组Q[1...n]表示一个容纳n-1个元素的队列。属性Q.head指向对头元素，属性Q.tail指向下一个新元素将要插入的位置。队列元素存放在Q.head,Q.head+1,...,Q.tail-1处(n-1个)
+//  初始时，Q,head=Q.tail=1,队列为空，此时如果删除一个，则队列发生下溢。当Q.head=Q.tail+1时，队列为满，此时如果插入一个，则队列发生上溢。
+//  下列伪代码，假设n=Q.length
+//   Enqueue(Q,x)
+//   1 Q[Q.tail] = x
+//   2 if Q.tail == Q.length
+//   3    Q.tail = 1
+//   4 else Q.tail = Q.tail + 1
+
+//   Dequeue(Q)
+//   1 x = Q[Q.head]
+//   2 if Q.head == Q.length
+//   3    Q.head = 1
+//   4 else Q.head = Q.head + 1
+//   5 return x
+//   两种操作时间都为O(1)
+
+// test
+// 2 如何在一个数组A[1...n]中实现两个栈，使得当两个栈元素之和不为n时，两者都不会发生上溢。
+//   指针top1指向数组A[1],指针top2指向数组A[n]。入栈时两侧向中间添加，出栈时中间向两侧减少。入栈操作前检查该位置是否为空，空说明没有溢出，满说明栈数组已满，栈上溢停止操作报错。
+
+// 4 重新Enqueue和Dequeue，使之能处理队列的下溢和上溢。
+//   Enqueue(Q,x)
+//   if Q.head == Q.tail+1
+//      error"overflow"
+//   else 
+//     Q[Q.tail] = x
+//     if Q.tail == Q.length
+//        Q.tail = 1
+//     else Q.tail = Q.tail + 1
+
+//   Dequeue(Q)
+//   if Q.head == Q.tail
+//      error"underflow"
+//   else
+//     x = Q[Q.head]
+//     if Q.head = Q.length
+//        Q.head = 1
+//     else Q.head = Q.head + 1
+//     return x
+
+// 5 栈插入和删除元素只能在同一端进行，队列的插入操作和删除操作分别在两端进行。但有一种双端队列，其插入和删除操作分别在两端进行。
+//   写出4个时间均为O(1)的过程，分别实现在双端队列的两端插入和删除元素的操作，该队列用一个数组实现。
+//   Left_Enqueue(Q,x)     // 左端插入
+//   if Q.head == Q.tail + 1
+//      error"overflow"
+//   if Q,head == 1
+//      Q[n] = x
+//      Q.head = n
+//   else
+//      Q[Q.head - 1] = x
+//      Q.head = Q.head - 1
+
+//   Right_Enqueue(Q,x)    // 右端插入
+//   if Q.head == Q.tail + 1
+//      error"overflow"
+//   else
+//      Q[Q.tail] = x
+//      if Q.tail == n
+//         Q.tail = 1
+//      else
+//         Q.tail = Q.tail + 1
+
+//   Left_Dequeue(Q)
+//   if Q.head == Q.tail
+//      error"underflow"
+//   else
+//      x = Q[Q.head]
+//      if Q.head == n
+//         Q.head = 1
+//      else Q.head = Q.head + 1
+//   return x
+
+//   Right_Dequeue(Q)
+//   if Q,head == Q.tail
+//      error"underflow"
+//   else
+//      if Q.tail == 1
+//         x = Q[n]
+//         Q.tail = n
+//      else
+//         x = Q[Q.tail - 1]
+//         Q.tail = Q.tail - 1
+//   return x
+
+// 6 说明如何用两个栈实现一个队列
+//   使用栈S1和栈S2。 入队：元素压入栈S1 O(1);出队：将栈S1中的所有元素弹出，压入S2，然后弹出栈顶元素 O(n)
+
+// 7 说明如何用两个队列实现一个栈
+//   使用队列Q1和队列Q2. 入栈：Q1和Q2之间有一个空队列，将值放入空队列，然后把另一个队列中的所有值依次出队并加入这个队列 O(n)；出栈：直接将非空队列中出队 O(1)
 
 
 
