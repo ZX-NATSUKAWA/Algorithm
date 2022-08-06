@@ -3937,7 +3937,79 @@
 //  有时也有其他方法表示有根树。如第六章对一棵完全二叉树用堆来表示，堆用一个单数组加上堆的最末结点的下标表示。
 //  根据具体应用选择表示方法。
 
+// test
+// 2 给定一个n结点的二叉树，写出一个O(n)时间的递归过程，将该树每个结点的关键字输出。
+//   Tree_Print(T)
+//   print key[T]
+//   if left[T] != NIL
+//      Tree_Print(left[T])
+//   if right[T] != NIL
+//      Tree_Print(right[T])
 
+// 3 给定一个n结点的二叉树，写出一个O(n)时间的非递归过程，将该树每个结点的关键字输出。可以使用一个栈作为辅助数据结构。
+//   Tree_Print(T,S)
+//   print key[T]
+//   Push(S,T)
+//   while(true)
+//       if left[T] != NIL
+//          T <- left[T]
+//       else
+//          do
+//             T = Pop(S)
+//             if T = NIL
+//                return
+//          while(left[T] = NIL)
+//          T <- right[T]
+
+// 4 给定一个n结点的任意有根树，写出一个O(n)时间的过程，输出其所有关键字。该树以左子右兄表示法存储。
+//   同二叉树遍历输出。
+
+// 5 给定一个n结点的二叉树，写出一个O(n)时间的非递归过程，将该树每个结点的关键字输出。要求除该树本身的存储空间外只能使用固定量的额外存储空间，且过程不得修改树。
+//   类似中序遍历，对一个结点，分为：
+//   1 如果有左子，先处理左子。
+//   2 返回自己，并访问
+//   3 如果有右子，处理右子
+//   4 返回父结点
+//   5 如果从左子返回说明右子没有处理从2开始，如果从右子返回说明这一层处理完毕从4开始。
+//   6 返回到根结点时，遍历结束。
+//  Print(T)
+//	root_num = 0
+//  last = now = T.root
+//  while (root_num != 2)
+//     if last == now.left-child
+//        if now.right-child != NIL
+//           last = now
+//           now = now.right-child
+//           print now.key
+//        else
+//           last = now
+//           now = now.parent
+//           if now == T.root
+//              root_num += 1
+//     else if last == now.right-child
+//           last = now
+//           now = now.parent
+//           if now == T.root
+//              root_num += 1
+//     else
+//           if now.left-child != NIL
+//              last = now
+//              now = now.left-child
+//              print now.key
+//           else if now.right-child != NIL
+//              last = now
+//              now = now.right-child
+//              print now.key
+//           else
+//              last,now = now,last
+//              if now == T.root
+//                 root_num += 1
+
+// 6 任意有根树的左子右兄表示法中的每个结点用到三个指针。对于任何结点都可以在常数时间到达父结点，并在与其孩子数呈线性关系的时间内到达所有孩子结点。
+//   说明如何在每个结点中只使用两个指针和一个布尔值的情况下，使结点的父结点或者所有子节点可以在与其孩子数呈线性关系的时间内到达。
+//   首先左子指针不能丢，不然无法寻找子树。
+//   其次每一层中最右侧结点没有右子指针，而且一个结点的若干个子结点的父指针都指向自己(即多个子结点重复保存了父指针信息).
+//   因此让最右侧的子节点保存父指针，用bool值表示该子节点是否为最右侧子结点。(多个子节点用到父指针时只需向右寻找存在最右结点的父指针)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
