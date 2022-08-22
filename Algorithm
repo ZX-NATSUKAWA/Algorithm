@@ -4304,7 +4304,17 @@
 //    2    Inorder_Tree_Walk(x,left)
 //    3    print x.key
 //    4    Inorder_Tree_Walk(x.right)
-
+//  遍历一棵有n个结点的二叉搜索树需要耗费theta(n)的时间，因为初次调用之后，对于树中每个结点该过程需要调用自己两次：一次是左子一次是右子。
+//  定理12.1 如果x是一棵有n个结点子树的根，那么调用Inorder_Tree_Walk(x)需要theta(n)时间。
+//    证明：当Inorder_Tree_Walk作用于一棵有n个结点子树的根时，用T(n)表示需要的时间。由于Inorder_Tree_Walk访问n个结点，有T(n)=Omiga(n)
+//          由于对于一棵空树，Inorder_Tree_Walk需要耗费一个小的常数时间，因此对某个常数c>0,有T(0)=c.
+//          对n>0，假设调用Inorder_Tree_Walk作用于一个结点x上，x结点左子树有k个结点且其右子树有n-k-1个结点，则执行Inorder_Tree_Walk的时间由T(n)<=T(k)+T(n-k-1)+d限界
+//          其中常数d>0。此式反映了执行Inorder_Tree_Walk的一个时间上界，不包含递归调用所花费的时间。
+//          使用替换法，通过证明T(n)<=(c+d)n+c，可以证得T(n)=O(n)。对于n=0，有(c+d)*0+c=c=T(0)。
+//          对于n>0,有T(n) <= T(k) + T(n-k-1) + d 
+//                          = ((c+d)k+c) + ((c+d)(n-k-1)+c) + d
+//                          = (c+d)n + c - (c+d) + c + d
+//                          = (c+d)n + c
 
 
 
