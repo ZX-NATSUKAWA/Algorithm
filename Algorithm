@@ -4340,7 +4340,26 @@
 //  12      while t.right == NIL
 //  13      t = t.right
 
+// 4 对于一棵有n个结点的树，设计在theta(n)时间内完成先序遍历算法和后序遍历算法。
+//   void Inorder(T)
+//   if T != NIL
+//      visit(T)
+//      Inorder(T->left)
+//      Inorder(T->right)
+//   void P_Inorder(T)
+//   if T != NIL
+//      Inorder(T->left)
+//      visit(T)
+//      Inorder(T->right)
+//   void A_Inorder(T)
+//   if T != NIL
+//      Inorder(T->left)
+//      Inorder(T->right)
+//      visit(T)
 
+// 5 因为在基于比较的排序模型中，完成n个元素的排序，其最坏情况下需要Omiga(nlgn)时间。
+//   试证明：任何基于比较的算法从n个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要Omiga(nlgn)时间。
+//   用中序遍历给出一个排序需要theta(n),对其进行比较算法排序需要Omiga(nlgn),最坏情况下需要Omiga(nlgn)
 
 
 
