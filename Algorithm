@@ -4361,7 +4361,38 @@
 //   试证明：任何基于比较的算法从n个元素的任意序列中构造一棵二叉搜索树，其最坏情况下需要Omiga(nlgn)时间。
 //   用中序遍历给出一个排序需要theta(n),对其进行比较算法排序需要Omiga(nlgn),最坏情况下需要Omiga(nlgn)
 
-
+// 12.2 查询二叉搜索树
+//  需要查找在二叉搜索树中的关键字。除了Search操作外，二叉搜索树还能支持如Minimum、Maximum、Successor和Predecessor的查询操作。
+// 12.2.1 查找
+//  使用如下过程在一棵二叉搜索树中查找一个具有给定关键字的结点。输入一个指向根的指针和一个关键字k，如果结点存在返回指向关键字为k的结点的指针，不存在返回NIL。
+//  Tree_Search(x,k)
+//  1 if x==NIL or k==x.key
+//  2    return x
+//  3 if k<x.key
+//  4    return Tree_Search(x.left,k)
+//  5 else return Tree_Search(x.right,k)
+//  该过程从树根开始查找，并沿一条简单路径向下进行。对于每个结点x，比较关键字k与x.key，如果相等查找终止，小于就查找x的左子树(因为二叉搜索树性质蕴含k不可能存在右子树)，对称的大于就查找右子树。
+//  可以采用while循环来展开递归，用一种迭代方式重新过程。对于大多数计算机，迭代版本的效率高得多。
+//  Iterative_Tree_Search(x,k)
+//  1 while x!=NIL and k!=x.key
+//  2   if k<x.key
+//  3      x = x.key
+//  4   else x = x.right
+//  5 return x
+// 12.2.3 最多关键字元素和最小关键字元素
+//  通过从树根开始沿着left子指针直到遇到一个NIL，总能在一棵二叉搜索树中找到一个元素。
+//  下面过程返回了一个指向在以给定结点x为根的子树中的最小元素的指针，这里假设不为NIL：
+//  Tree_Minumum(x)
+//  1 while x.left!=NIL
+//  2    x = x.left
+//  3 return x
+//  二叉搜索树性质保证了Tree_Minimum是正确的。如果结点x没有左子树，那么由于x右子树中的关键字都至少大于或等于x.key,则以x为根的子树中的最小关键字是x,key。
+//  如果结点x有左子树，那么由于其右子树中没有关键字小于x.key，且在左子树中的每个关键字不大于x.key，则以x为根的最小关键字一定在x.left为根的子树中。
+//  Tree_Maximum(x)
+//  1 while x.right!=NIL
+//  2    x = x.right
+//  3 return x
+//  这两个过程在一棵高度为h的树上均能在O(h)时间内执行完成。
 
 
 
