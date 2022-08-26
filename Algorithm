@@ -4393,7 +4393,22 @@
 //  2    x = x.right
 //  3 return x
 //  这两个过程在一棵高度为h的树上均能在O(h)时间内执行完成。
-
+// 12.2.3 后继和前驱
+//  给定一棵二叉搜索树中的一个结点，有时需要按中序遍历的次序查找它的后继。如果所有关键字互不相同，则一个结点x的后继是大于x.key的最小关键字的结点。
+//  一棵二叉搜索树的结构允许我们通过没有任何关键字的比较来确定一个结点的后继。如果后继存在，下面过程返回一棵二叉搜索树中的结点x的后继；如果x是最大关键字，则返回NIL。
+//  Tree_Successor(x)
+//  1 if x.right!=NIL
+//  2    return Tree_Minimum(x.right)
+//  3 y = x.p
+//  4 while y!=NIL and x==y.right
+//  5    x = y
+//  6    y = y.p
+//  7 return y
+//  把Tree_Successor的伪代码分为两种情况。如果结点x的右子树非空，那么x的后继恰是x右子树中的最左结点，通过第2行的Tree_Minimum调用可以找到。
+//  另一方面，如果结点x的右子树非空并有一个后继y，那么y就是x的有左孩子的最底层祖先，并且它也是x的一个祖先。为了找到y，只需要从x开始沿树而上，直到遇到一个其双亲有左孩子的结点。
+//  在一棵高度为h的树上，Tree_Successor的运行时间为O(h)。过程Tree_Predecessor与Tree_Successor对称，其运行时间也为O(h).
+//  即使关键字不是互异，仍然定义后继和前驱调用Tree_Predecessor与Tree_Successor
+//  定理12.2 在一棵高度为h的二叉搜索树上，动态集合上的操作Search,Minimum,Maximum,Successor,Predecessor可以在O(h)时间内完成。
 
 
 
