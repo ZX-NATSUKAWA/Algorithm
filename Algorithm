@@ -4497,7 +4497,34 @@
 //    否则，z既有一个左子又有一个右子。查找z的后继y，这个后继位于z的右子树中并且没有左子。现在需要将y溢出原来的位置进行拼接，并替换树中的z。
 //      如果y是z的右子，那么用y替换z，并仅留下y的右子。
 //      否则，y位于z的右子树中但并不是z的右子。此时，先用y的右子替换y，然后再用y替换z。
-
+//  为了在二叉搜索树内移动子树，定义一个子过程Transplant，它是用另一棵子树替换一棵子树并成为其双亲的子结点。当Transplant用一棵以v为根的子树来替换一棵以u为根的子树时，结点u的双亲就变为结点v的双亲，并且最后v成为u的双亲的相应孩子。
+//  Transplant(T,u,v)
+//  1 if u.p == NIL
+//  2    T.root = v
+//  3 else if u == u.p,left
+//  4    u.p.left = v
+//  5 else u.p.right = v
+//  6 if v != NIL
+//  7    v.p = u.p
+//  第1-2行处理u是T的树根的情况。否则，u是其双亲的左子或右子。如果u是一个左子，第3-4行负责u.p.left的更新；如果u是一个右子，第5行更新u.p.right。
+//  允许v为NIL，如果v为非空时，第6-7行更新v.p。注意到，Transplant并没有处理v.left和v.right的更新，这些更新都由Transplant的调用者完成。
+//  利用Transplant过程，下面是从二叉搜索树T中删除结点z的过程：
+//  Tree_Delete(T,z)
+//  1 if z.left == NIL
+//  2    Translant(T,z,z.right)
+//  3 else if z.right == NIL
+//  4    Transplant(T,z,z.left)
+//  5 else y = Tree_Minimum(z.right)
+//  6    if y.p != z
+//  7       Transplant(T,y,y.right)
+//  8       y.right = z.right
+//  9       y.right.p = y
+// 10    Transplant(T,z,y)
+// 11    y.left = z.left
+// 12    y.left.p = y
+//  该过程与上述讨论情况一致。除了第五行调用Tree_Minimum之外，Tree_Delete每一行，包括调用Transplant都只花费常数时间。因此，一棵高为h的树上，Tree_Delete的运行时间为O(h)
+//  总之，证明了定理12.3
+//  定理12.3 在一棵高度为h的二叉搜索树上，实现动态集合操作Insert和Delete的运行时间均为O(h)
 
 
 
