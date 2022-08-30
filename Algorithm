@@ -4526,7 +4526,23 @@
 //  总之，证明了定理12.3
 //  定理12.3 在一棵高度为h的二叉搜索树上，实现动态集合操作Insert和Delete的运行时间均为O(h)
 
-
+// test
+// 1 给出Tree_Insert的递归版本
+//   void Insert(Node* pRoot,Node* pAdd)
+//   { 
+//     bool bLeft = pAdd -> key < pRoot -> key;
+//     Node* pNextRoot = bLeft ? pRoot->left : pRoot->right;
+//     if (pNextRoot)
+//        insert1(pNextRoot,pAdd);
+//     else
+//     {
+//        pAdd->parent = pRoot;
+//        if(bLeft)
+//           pRoot - >left = pAdd;
+//        else
+//           pRoot - > right = pAdd;  
+//      }  
+//    }
 
 
 
