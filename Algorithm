@@ -4676,6 +4676,77 @@
 // y.right = x
 // x.p = y
 
+// 13.3 插入
+//  可以在O(lgn)时间内完成向一棵含n个结点的红黑树中插入一个新结点。为了做到这一点，利用Tree_Insert的一个改版，类似与先插入结点再对其着色。
+//  为了保证红黑性质，调用辅助程序RB_Insert_Fixup来对结点着色并旋转。
+//  RB_Insert(T,z)
+//  1 y = T.nil
+//  2 x = T.root
+//  3 while x != T.nil
+//  4    y = x
+//  5    if z.key < x.key
+//  6       x = x.left
+//  7    else x = x.right
+//  8 z.p = y
+//  9 if y == T.nil
+// 10    T.root = z
+// 11 else if z.key < y.key
+// 12    y.left = z
+// 13 else y.right = z
+// 14 z.left = T.nil
+// 15 z.right = T.nil
+// 16 z.color = RED
+// 17 RB_Insert_Fixup(T,z)
+//  过程Tree_Insert和RB_Insert有4处不同。
+//    第一，Tree_Insert内的所有NIL都被T.nil替代。
+//    第二，RB_Insert第14-15行置z.left和z.right为T.nil，以保持合理的树结构。
+//    第三，第16行将z着红色。
+//    第四，因为着红色可能违背红黑性质，因此调用17行进行维护。
+//  RB_Insert_Fixup(T,z)
+//  1 while z.color == RED
+//  2    if z.p == z.p.p.left
+//  3       y = z.p.p.right
+//  4       if y.color == RED
+//  5          z.p.color = BLACK
+//  6          y.color = BLACK
+//  7          z.p.p.color = RED
+//  8          z = z.p.p
+//  9       else if z == z.p.right
+// 10          z = z.p
+// 11          Left_Rotate(T,z)
+// 12          z.p.color = BLACK
+// 13          z.p.p.color = RED
+// 14          Right_Rotate(T,z.p.p)
+// 15    else(same as right and left exchange)
+// 16 T.root.color = BLACK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
