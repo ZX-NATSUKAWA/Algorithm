@@ -4769,7 +4769,43 @@
 //          在RB_Insert_Fixup中，仅当情况1发生，然后指针z沿这树上升两层，while循环才会重复执行。所有while循环可能被执行的总次数为O(lgn).
 //          因此，RB_Insert总共花费O(lgn)时间。此外，该程序所做旋转不超过2次，因为只要执行情况2或3循环就结束了。
 
-
+// 13.4 删除
+//  与n个结点的红黑树上的其他基本操作一样，删除一个结点要花费O(lgn)。与插入操作相比，删除操作稍微复杂些。
+//  从一棵红黑树中删除结点的过程是基于Tree_Delete过程而来的。首先，需要特别设计一个供Tree_Delete调用的子过程Transplant，并将其应用到红黑树上。
+//  RB_Transplant(T,u,v)
+//  1 if u.p == T.nil
+//  2    T.root = u
+//  3 else if u == u.p.left
+//  4    u.p.left = v
+//  5 else u.p.right = v
+//  6 v.p = u.p
+//  过程RB_Delete与Tree_Delete类似，只是多了几行伪代码。多出的记录结点y的踪迹，y有可能导致红黑性质的破坏。
+//    当想要删除结点z，且此时z的子节点少于2个时，z从树中删除，并让y成为z。
+//    当z有两个子节点时，y应该是z的后继，并且y将移至树中的z位置。在结点被移除或者在树中移动之前，必须记住y的颜色，并且记录结点x的踪迹，将x移至树中y原来的位置。
+//    因为结点x也可能引起红黑性质的破坏。删除结点z之后，RB_Delete调用一个辅助过程RB_Delete_Fixup，该过程通过改变颜色和执行旋转来恢复红黑性质。
+//  RB_Delete(T,z)
+//  1 y = z
+//  2 y-original-color = y.color
+//  3 if z.left == T.nil
+//  4    x = z.right
+//  5    RB_Transplant(T,z,z.right)
+//  6 else if z.right == T.nil
+//  7    x = z.left
+//  8    RB_Transplant(T,z,z.left)
+//  9 else y = Tree_Minimum(z.right)
+// 10    y-original-color = y.color
+// 11    x = y.right
+// 12    if y.p == z
+// 13       x.p = y
+// 14    else RB_Transplant(T,y,y.right)
+// 15       y.right = z.right
+// 16       y.right.p = y
+// 17    RB_Transplant(T,z,y)
+// 18    y.left = z.left
+// 19    y.right.p = y
+// 20    y.color = z.color
+// 21 if y-original-color == BLACK
+// 22    RB_Delete_Fixup(T,x)
 
 
 
