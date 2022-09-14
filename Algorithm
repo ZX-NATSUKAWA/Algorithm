@@ -4824,7 +4824,32 @@
 //   当将黑结点y删除或移动时，将其黑色下推给结点x。问题变为结点x可能既不是红色也不是黑色，违反性质1.
 //   现在的结点x是双重黑色或者红黑色，这就分别给包含x的简单路径上黑高贡献了2或1. x的属性仍然是RED(红黑)或BLACK(黑黑)。
 //   换言之，结点额外黑色是针对x结点的，而不是反映在color属性上的。
-
+//   换言之，结点额外黑色是针对x结点的，而不是反映在color属性上的。
+//   现在看RB_Delete_Fixup如何恢复搜索树的红黑性质。
+//   RB_Delete_Fixup(T,x)
+//   1 while x!= T.root and x.color==BLACK
+//   2     if x == x.p.left
+//   3        w = x.p.right
+//   4        if w.color == RED      // case1
+//   5           w.color = BLACK
+//   6           x.p.color = RED
+//   7           Left_Rotate(T,x.p)
+//   8           w = x.p.right
+//   9        if w.left.color == BLACK and w.right.color == BLACK  // case2
+//  10           w.color = RED
+//  11           x = x.p
+//  12        else if w.right.color == BLACK  //case3
+//  13           w.left.color = BLACK
+//  14           w.color = RED
+//  15           Right_Rotate(T,w)
+//  16           w = x.p.right 
+//  17        w.color = x.p.right     // case4
+//  18        x.p.color = BLACK
+//  19        w.right.color = BLACK
+//  20        Left_Rotate(T,x.p)
+//  21        x = T.root
+//  22     else (same as then clause with right and left exchanged)
+//  23 x.color = BLACK
 
 
 
